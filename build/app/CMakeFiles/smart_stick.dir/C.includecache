@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../app/include/foo.h
+
+../hal/include/hal/distanceSensor.h
+stdbool.h
+-
+
+/home/ianh/cmpt433/work/group/CMPT433-Project/app/src/foo.c
+foo.h
+/home/ianh/cmpt433/work/group/CMPT433-Project/app/src/foo.h
+
+/home/ianh/cmpt433/work/group/CMPT433-Project/app/src/main.c
+stdio.h
+-
+foo.h
+/home/ianh/cmpt433/work/group/CMPT433-Project/app/src/foo.h
+hal/distanceSensor.h
+/home/ianh/cmpt433/work/group/CMPT433-Project/app/src/hal/distanceSensor.h
+

@@ -1,3 +1,10 @@
-int main(){
-    printf("I have fallen and I can't get up\n");
+#include <stdio.h>
+
+#include "foo.h"
+#include "hal/distanceSensor.h"
+
+int main() {
+  printf("Hello world!\n");
+
+  return 0;
 }

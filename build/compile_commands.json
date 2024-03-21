@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/ianh/cmpt433/work/group/CMPT433-Project/build/hal",
+  "command": "/usr/bin/arm-linux-gnueabihf-gcc  -I/home/ianh/cmpt433/work/group/CMPT433-Project/hal/hal/include -I/usr/local/include -I/home/ianh/cmpt433/work/group/CMPT433-Project/hal/include -g -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -fsanitize=address -pthread -std=gnu11 -o CMakeFiles/hal.dir/src/distanceSensor.c.o -c /home/ianh/cmpt433/work/group/CMPT433-Project/hal/src/distanceSensor.c",
+  "file": "/home/ianh/cmpt433/work/group/CMPT433-Project/hal/src/distanceSensor.c"
+},
+{
+  "directory": "/home/ianh/cmpt433/work/group/CMPT433-Project/build/app",
+  "command": "/usr/bin/arm-linux-gnueabihf-gcc  -I/home/ianh/cmpt433/work/group/CMPT433-Project/app/include -I/usr/local/include -I/home/ianh/cmpt433/work/group/CMPT433-Project/hal/include -g -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -fsanitize=address -pthread -std=gnu11 -o CMakeFiles/smart_stick.dir/src/foo.c.o -c /home/ianh/cmpt433/work/group/CMPT433-Project/app/src/foo.c",
+  "file": "/home/ianh/cmpt433/work/group/CMPT433-Project/app/src/foo.c"
+},
+{
+  "directory": "/home/ianh/cmpt433/work/group/CMPT433-Project/build/app",
+  "command": "/usr/bin/arm-linux-gnueabihf-gcc  -I/home/ianh/cmpt433/work/group/CMPT433-Project/app/include -I/usr/local/include -I/home/ianh/cmpt433/work/group/CMPT433-Project/hal/include -g -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -fsanitize=address -pthread -std=gnu11 -o CMakeFiles/smart_stick.dir/src/main.c.o -c /home/ianh/cmpt433/work/group/CMPT433-Project/app/src/main.c",
+  "file": "/home/ianh/cmpt433/work/group/CMPT433-Project/app/src/main.c"
+}
+]

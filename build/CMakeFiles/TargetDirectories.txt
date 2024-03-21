@@ -1,0 +1,8 @@
+/home/ianh/cmpt433/work/group/CMPT433-Project/build/CMakeFiles/rebuild_cache.dir
+/home/ianh/cmpt433/work/group/CMPT433-Project/build/CMakeFiles/edit_cache.dir
+/home/ianh/cmpt433/work/group/CMPT433-Project/build/hal/CMakeFiles/rebuild_cache.dir
+/home/ianh/cmpt433/work/group/CMPT433-Project/build/hal/CMakeFiles/edit_cache.dir
+/home/ianh/cmpt433/work/group/CMPT433-Project/build/hal/CMakeFiles/hal.dir
+/home/ianh/cmpt433/work/group/CMPT433-Project/build/app/CMakeFiles/edit_cache.dir
+/home/ianh/cmpt433/work/group/CMPT433-Project/build/app/CMakeFiles/rebuild_cache.dir
+/home/ianh/cmpt433/work/group/CMPT433-Project/build/app/CMakeFiles/smart_stick.dir
