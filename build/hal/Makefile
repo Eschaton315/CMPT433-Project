@@ -171,6 +171,33 @@ src/distanceSensor.c.s:
 	cd /home/ianh/cmpt433/work/group/CMPT433-Project/build && $(MAKE) $(MAKESILENT) -f hal/CMakeFiles/hal.dir/build.make hal/CMakeFiles/hal.dir/src/distanceSensor.c.s
 .PHONY : src/distanceSensor.c.s
 
+src/shared.o: src/shared.c.o
+
+.PHONY : src/shared.o
+
+# target to build an object file
+src/shared.c.o:
+	cd /home/ianh/cmpt433/work/group/CMPT433-Project/build && $(MAKE) $(MAKESILENT) -f hal/CMakeFiles/hal.dir/build.make hal/CMakeFiles/hal.dir/src/shared.c.o
+.PHONY : src/shared.c.o
+
+src/shared.i: src/shared.c.i
+
+.PHONY : src/shared.i
+
+# target to preprocess a source file
+src/shared.c.i:
+	cd /home/ianh/cmpt433/work/group/CMPT433-Project/build && $(MAKE) $(MAKESILENT) -f hal/CMakeFiles/hal.dir/build.make hal/CMakeFiles/hal.dir/src/shared.c.i
+.PHONY : src/shared.c.i
+
+src/shared.s: src/shared.c.s
+
+.PHONY : src/shared.s
+
+# target to generate assembly for a file
+src/shared.c.s:
+	cd /home/ianh/cmpt433/work/group/CMPT433-Project/build && $(MAKE) $(MAKESILENT) -f hal/CMakeFiles/hal.dir/build.make hal/CMakeFiles/hal.dir/src/shared.c.s
+.PHONY : src/shared.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -183,6 +210,9 @@ help:
 	@echo "... src/distanceSensor.o"
 	@echo "... src/distanceSensor.i"
 	@echo "... src/distanceSensor.s"
+	@echo "... src/shared.o"
+	@echo "... src/shared.i"
+	@echo "... src/shared.s"
 .PHONY : help
 
 

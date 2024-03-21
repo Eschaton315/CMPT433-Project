@@ -12,9 +12,29 @@
 stdbool.h
 -
 
-/home/ianh/cmpt433/work/group/CMPT433-Project/app/src/foo.c
-foo.h
-/home/ianh/cmpt433/work/group/CMPT433-Project/app/src/foo.h
+../hal/include/hal/shared.h
+assert.h
+-
+fcntl.h
+-
+linux/i2c-dev.h
+-
+linux/i2c.h
+-
+stdbool.h
+-
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+sys/ioctl.h
+-
+time.h
+-
+unistd.h
+-
 
 /home/ianh/cmpt433/work/group/CMPT433-Project/app/src/main.c
 stdio.h
@@ -23,4 +43,6 @@ foo.h
 /home/ianh/cmpt433/work/group/CMPT433-Project/app/src/foo.h
 hal/distanceSensor.h
 /home/ianh/cmpt433/work/group/CMPT433-Project/app/src/hal/distanceSensor.h
+hal/shared.h
+/home/ianh/cmpt433/work/group/CMPT433-Project/app/src/hal/shared.h
 

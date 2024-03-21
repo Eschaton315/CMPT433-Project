@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/home/ianh/cmpt433/work/group/CMPT433-Project/hal/src/distanceSensor.c" "/home/ianh/cmpt433/work/group/CMPT433-Project/build/hal/CMakeFiles/hal.dir/src/distanceSensor.c.o"
+  "/home/ianh/cmpt433/work/group/CMPT433-Project/hal/src/shared.c" "/home/ianh/cmpt433/work/group/CMPT433-Project/build/hal/CMakeFiles/hal.dir/src/shared.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

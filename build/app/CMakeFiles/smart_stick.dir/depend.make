@@ -6,5 +6,6 @@ app/CMakeFiles/smart_stick.dir/src/foo.c.o: ../app/src/foo.c
 
 app/CMakeFiles/smart_stick.dir/src/main.c.o: ../app/include/foo.h
 app/CMakeFiles/smart_stick.dir/src/main.c.o: ../hal/include/hal/distanceSensor.h
+app/CMakeFiles/smart_stick.dir/src/main.c.o: ../hal/include/hal/shared.h
 app/CMakeFiles/smart_stick.dir/src/main.c.o: ../app/src/main.c
 

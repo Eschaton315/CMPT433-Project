@@ -16,8 +16,10 @@ CMPT433-Project
 │  ├─ include
 │  │  └─ hal
 │  │     └─ distanceSensor.h
+│  │     └─ shared.h
 │  └─ src
 │     └─ distanceSensor.c
+│     └─ shared.c
 └─ lib
    └─ VL53L0X
       ├─ LICENSE.txt

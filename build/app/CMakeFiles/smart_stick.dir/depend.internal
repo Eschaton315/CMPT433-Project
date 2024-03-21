@@ -7,4 +7,5 @@ app/CMakeFiles/smart_stick.dir/src/foo.c.o
 app/CMakeFiles/smart_stick.dir/src/main.c.o
  ../app/include/foo.h
  ../hal/include/hal/distanceSensor.h
+ ../hal/include/hal/shared.h
  /home/ianh/cmpt433/work/group/CMPT433-Project/app/src/main.c

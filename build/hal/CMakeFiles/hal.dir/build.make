@@ -89,17 +89,32 @@ hal/CMakeFiles/hal.dir/src/distanceSensor.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/hal.dir/src/distanceSensor.c.s"
 	cd /home/ianh/cmpt433/work/group/CMPT433-Project/build/hal && /usr/bin/arm-linux-gnueabihf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ianh/cmpt433/work/group/CMPT433-Project/hal/src/distanceSensor.c -o CMakeFiles/hal.dir/src/distanceSensor.c.s
 
+hal/CMakeFiles/hal.dir/src/shared.c.o: hal/CMakeFiles/hal.dir/flags.make
+hal/CMakeFiles/hal.dir/src/shared.c.o: ../hal/src/shared.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ianh/cmpt433/work/group/CMPT433-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object hal/CMakeFiles/hal.dir/src/shared.c.o"
+	cd /home/ianh/cmpt433/work/group/CMPT433-Project/build/hal && /usr/bin/arm-linux-gnueabihf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/hal.dir/src/shared.c.o -c /home/ianh/cmpt433/work/group/CMPT433-Project/hal/src/shared.c
+
+hal/CMakeFiles/hal.dir/src/shared.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/hal.dir/src/shared.c.i"
+	cd /home/ianh/cmpt433/work/group/CMPT433-Project/build/hal && /usr/bin/arm-linux-gnueabihf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/ianh/cmpt433/work/group/CMPT433-Project/hal/src/shared.c > CMakeFiles/hal.dir/src/shared.c.i
+
+hal/CMakeFiles/hal.dir/src/shared.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/hal.dir/src/shared.c.s"
+	cd /home/ianh/cmpt433/work/group/CMPT433-Project/build/hal && /usr/bin/arm-linux-gnueabihf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ianh/cmpt433/work/group/CMPT433-Project/hal/src/shared.c -o CMakeFiles/hal.dir/src/shared.c.s
+
 # Object files for target hal
 hal_OBJECTS = \
-"CMakeFiles/hal.dir/src/distanceSensor.c.o"
+"CMakeFiles/hal.dir/src/distanceSensor.c.o" \
+"CMakeFiles/hal.dir/src/shared.c.o"
 
 # External object files for target hal
 hal_EXTERNAL_OBJECTS =
 
 hal/libhal.a: hal/CMakeFiles/hal.dir/src/distanceSensor.c.o
+hal/libhal.a: hal/CMakeFiles/hal.dir/src/shared.c.o
 hal/libhal.a: hal/CMakeFiles/hal.dir/build.make
 hal/libhal.a: hal/CMakeFiles/hal.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ianh/cmpt433/work/group/CMPT433-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C static library libhal.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ianh/cmpt433/work/group/CMPT433-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C static library libhal.a"
 	cd /home/ianh/cmpt433/work/group/CMPT433-Project/build/hal && $(CMAKE_COMMAND) -P CMakeFiles/hal.dir/cmake_clean_target.cmake
 	cd /home/ianh/cmpt433/work/group/CMPT433-Project/build/hal && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/hal.dir/link.txt --verbose=$(VERBOSE)
 

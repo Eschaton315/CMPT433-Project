@@ -3,4 +3,9 @@
 
 hal/CMakeFiles/hal.dir/src/distanceSensor.c.o
  ../hal/include/hal/distanceSensor.h
+ ../hal/include/hal/shared.h
  /home/ianh/cmpt433/work/group/CMPT433-Project/hal/src/distanceSensor.c
+ /usr/local/include/tof.h
+hal/CMakeFiles/hal.dir/src/shared.c.o
+ ../hal/include/hal/shared.h
+ /home/ianh/cmpt433/work/group/CMPT433-Project/hal/src/shared.c

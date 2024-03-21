@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/hal.dir/src/distanceSensor.c.o"
+  "CMakeFiles/hal.dir/src/shared.c.o"
   "libhal.a"
   "libhal.pdb"
 )
