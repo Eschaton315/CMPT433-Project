@@ -1,1 +1,0 @@
-/usr/bin/arm-linux-gnueabihf-gcc -g -fsanitize=address -pthread CMakeFiles/smart_stick.dir/src/foo.c.o CMakeFiles/smart_stick.dir/src/main.c.o -o smart_stick  ../hal/libhal.a ../hal/libhal.a -ltof 
