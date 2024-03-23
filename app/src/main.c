@@ -7,6 +7,7 @@ int main() {
   DS_init();
   while (1) {
     printf("Hello World\n");
+    printf("Gyro Test");
     printf("Distance = %d\n", DS_getReading());
     sleepForMs(1000);
   }
