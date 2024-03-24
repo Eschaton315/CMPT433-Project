@@ -30,7 +30,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "sh2_hal.h"
+#include "hal/sh2_hal.h"
 
 /***************************************************************************************
  * Public type definitions

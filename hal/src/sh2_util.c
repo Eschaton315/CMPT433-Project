@@ -19,7 +19,7 @@
  * Simple Utility functions common to several SH2 files.
  */
 
-#include "sh2_util.h"
+#include "hal/sh2_util.h"
 
 uint8_t readu8(const uint8_t *p)
 {

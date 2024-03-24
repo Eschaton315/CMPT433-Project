@@ -28,7 +28,7 @@
 
 #include <stdint.h>
 
-#include "sh2.h"
+#include "hal/sh2.h"
 
 /* Note on quaternion naming conventions:
  * Quaternions are values with four real components that are usually

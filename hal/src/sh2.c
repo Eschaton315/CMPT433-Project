@@ -35,10 +35,10 @@
 #   endif
 #endif
 
-#include "sh2.h"
-#include "sh2_err.h"
-#include "shtp.h"
-#include "sh2_util.h"
+#include "hal/sh2.h"
+#include "hal/sh2_err.h"
+#include "hal/shtp.h"
+#include "hal/sh2_util.h"
 
 #include <string.h>
 #include <stdio.h>

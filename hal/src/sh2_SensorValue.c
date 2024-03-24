@@ -19,9 +19,9 @@
  * BNO080 Sensor Event decoding
  */
 
-#include "sh2_SensorValue.h"
-#include "sh2_err.h"
-#include "sh2_util.h"
+#include "hal/sh2_SensorValue.h"
+#include "hal/sh2_err.h"
+#include "hal/sh2_util.h"
 
 #include <stdio.h>
 

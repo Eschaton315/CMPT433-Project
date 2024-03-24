@@ -3,6 +3,7 @@
 #   Use header as: #include "hal/button.h"
 
 include_directories(hal/include)
+include_directories(hal/include/BNO085_gyro)
 include_directories(/usr/local/include)
 
 file(GLOB MY_SOURCES "src/*.c")

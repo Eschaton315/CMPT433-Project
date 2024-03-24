@@ -19,8 +19,8 @@
  * Sensor Hub Transport Protocol (SHTP) API
  */
 
-#include "shtp.h"
-#include "sh2_err.h"
+#include "hal/shtp.h"
+#include "hal/sh2_err.h"
 
 #include <string.h>
 
