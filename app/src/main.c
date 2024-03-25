@@ -5,10 +5,9 @@
 #include "hal/shared.h"
 int main() {
   DS_init();
-  while (1) {
-    printf("Hello World\n");
-    printf("Distance = %d\n", DS_getReading());
-    sleepForMs(1000);
-  }
+  // Let DS run for 10 seconds
+  sleepForMs(10000);
+  DS_cleanup();
+  printf("Main program Finished, exiting. . .\n");
   return 0;
 }
