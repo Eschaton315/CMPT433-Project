@@ -25,7 +25,8 @@
 #include "hal/sh2_hal.h"
 
 // Initialize the SHTP HAL and return a reference to it.
-void eventHandler(void * cookie, sh2_AsyncEvent_t *pEvent);
+void sensorHandler(sh2_SensorEvent_t *pEvent)
+void eventHandler(sh2_AsyncEvent_t *pEvent);
 sh2_Hal_t *sh2_hal_init(void);
 sh2_Hal_t *dfu_hal_init(void);
 sh2_Hal_t *fsp200_dfu_hal_init(void);

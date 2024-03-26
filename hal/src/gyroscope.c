@@ -31,7 +31,16 @@ i2c_hal_t sh2_hal;
 i2c_hal_t dfu_hal;
 bool resetOccurred = false;
 
-void eventHandler(void * cookie, sh2_AsyncEvent_t *pEvent)
+void sensorHandler(sh2_SensorEvent_t *pEvent)
+{
+#ifdef DSF_OUTPUT
+    printDsf(pEvent);
+#else
+    printEvent(pEvent);
+#endif
+}
+
+void eventHandler(sh2_AsyncEvent_t *pEvent)
 {
     // If we see a reset, set a flag so that sensors will be reconfigured.
     if (pEvent->eventId == SH2_RESET) {
