@@ -19,19 +19,19 @@
  * I2C-based HALs for SH2 and DFU.
  */
 
-#include "i2c_hal.h"
+#include "hal/i2c_hal.h"
 
-#include "sh2_hal_init.h"
-#include "sh2_hal.h"
-#include "sh2_err.h"
+#include "hal/gyroscope.h"
+#include "hal/sh2_hal.h"
+#include "hal/sh2_err.h"
 
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
 
-#include "stm32f4xx_hal.h"
-#include "stm32f4xx_hal_tim.h"
-#include "stm32f4xx_hal_i2c.h"
+#include "hal/stm32f4xx_hal.h"
+#include "hal/stm32f4xx_hal_tim.h"
+#include "hal/stm32f4xx_hal_i2c.h"
 
 #define CLKSEL0_PORT GPIOA
 #define CLKSEL0_PIN  GPIO_PIN_8

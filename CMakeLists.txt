@@ -5,7 +5,7 @@ project(SmartStick VERSION 1.0 DESCRIPTION "SmartStick" LANGUAGES C)
 # Compiler options (inherited by sub-folders)
 set(CMAKE_C_STANDARD 11)
 add_compile_options(-Wall -Werror -Wpedantic -Wextra)
-add_compile_options(-fdiagnostics-color)
+#add_compile_options(-fdiagnostics-color)
 
 # Enable address sanitizer
 # (Comment this out to make your code faster)

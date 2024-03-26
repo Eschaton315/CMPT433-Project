@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "sh2_hal.h"
+#include "hal/sh2_hal.h"
 
 typedef enum shtp_Event_e {
     SHTP_SHORT_FRAGMENT = 1,

@@ -22,7 +22,7 @@
 #define M_PI (3.14159265358979323846264338327950288419716939937510)
 #endif
 
-#include "euler.h"
+#include "hal/euler.h"
 
 // Functions to convert quaternion into Roll, Pitch and Yaw values.
 
