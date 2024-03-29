@@ -4,8 +4,8 @@
         "sh2_err.h": "c",
         "stdint.h": "c",
         "gyroscope.h": "c",
-        "MPU6050.h": "c",
-
-       
+        "mpuTest.h": "c",
+        //"MPU6050.h": "c",
+        "errno.h": "c"
     }
 }
