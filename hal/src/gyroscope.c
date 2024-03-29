@@ -7,17 +7,21 @@
 #include <sys/ioctl.h>
 #include <linux/i2c-dev.h>
 
+//#include "hal/getbno080.h"
 #include "hal/shared.h"
 
 #define I2C_PATH "/dev/i2c-2"
 #define addr 0x4A
 
-#define READ_SIZE 16
+#define READ_SIZE 20
 
 
 void gyro_init(void) {
+    runCommand("config-pin p9.17 i2c");
+    runCommand("config-pin p9.18 i2c");
     runCommand("config-pin p9.19 i2c");
     runCommand("config-pin p9.20 i2c");
+    //shtp_init(I2C_PATH,(char*)addr);
 }
 
 void gyro_readData(){
@@ -42,12 +46,13 @@ void gyro_readData(){
 
     if(mode){
         //ONLY PRINTS OUT 00's
+        //print_gyr_conf();
         size_t bytesRead = read(file, data,sizeof(data));
 
                 if (bytesRead > 0) {
-                printf("Read %zu bytes in hexadecimal format:\n", bytesRead);
+               // printf("Read %zu bytes in hexadecimal format:\n", bytesRead);
                 for (size_t i = 0; i < bytesRead; i++) {
-                    printf("%02X ", data[i]); // Print each byte in hexadecimal format
+                  //  printf("%02X ", data[i]); // Print each byte in hexadecimal format
                 }
                 printf("\n");
             } else {
@@ -55,8 +60,8 @@ void gyro_readData(){
             }
     }else{
 
-        buf[0] = 0x02;  // Command byte according to the documentation, should let me access the gyro data.
-        buf[1] = 0x0E;
+        buf[0] = 0xF9;  // Command byte according to the documentation, should let me access the gyro data.
+        buf[1] = 0x00;
         // I dont know what i am supposed to write for the second byte since the documentation only says "reserved"
         if (write(file, buf, 2) != 2) {
             perror("Failed to write to I2C bus.");

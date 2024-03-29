@@ -4,8 +4,8 @@
         "sh2_err.h": "c",
         "stdint.h": "c",
         "gyroscope.h": "c",
-        "stm32f4xx_hal.h": "c",
-        "stm32f4xx_hal_tim.h": "c",
-        "stm32f4xx_hal_i2c.h": "c"
+        "MPU6050.h": "c",
+
+       
     }
 }
