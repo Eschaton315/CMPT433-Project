@@ -15,6 +15,7 @@
 
 void writeCmd(char *, char *);
 void runCommand(char *command);
+long long getTimeInMs(void);
 void sleepForMs(long long delayInMs);
 int initI2cBus(char *, int);
 void writeI2cReg(int, unsigned char, unsigned char);
