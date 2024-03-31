@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <linux/i2c-dev.h>
+#include <pthread.h>
 
 //#include "hal/getbno080.h"
 #include "hal/shared.h"
@@ -46,21 +47,40 @@ float roll = 0;
 float pitch = 0;
 float yaw = 0;
 
+float *gyroData;
 
-bool gyro_init(void) {
+volatile bool GYRO_DRIVER_FLAG = true;
+static pthread_t gyroThreadID;
+static pthread_mutex_t gyroMutex = PTHREAD_MUTEX_INITIALIZER;
+
+//locks for thread synchronization
+static void lock(){
+    pthread_mutex_lock(&gyroMutex);
+}
+static void unlock(){
+    pthread_mutex_unlock(&gyroMutex);
+}
+
+
+void *gyro_Thread();
+
+void gyro_init(void) {
     runCommand("config-pin p9.19 i2c");
     runCommand("config-pin p9.20 i2c");
     currentTime = getTimeInMs();
+    gyroData = malloc(3*sizeof(float));
     I2Cdev(2);
     MPU6050(I2C_ADDR);
     MPU6050_initialize();
-    return MPU6050_testConnection();
+    pthread_create(&gyroThreadID, NULL, gyro_Thread,NULL);
+    //return MPU6050_testConnection();
 }
 
 //Derived from: https://howtomechatronics.com/tutorials/arduino/arduino-and-mpu6050-accelerometer-and-gyroscope-tutorial/
 //and https://github.com/jrowberg/i2cdevlib/tree/master/PIC18 
 //relevant datasheet: https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf 
 void gyro_readData(){
+    lock();
     //initialize values
     int16_t ax,ay,az,gx,gy,gz;
     float accX,accY,accZ,gyroX,gyroY,gyroZ;
@@ -94,68 +114,29 @@ void gyro_readData(){
     roll = (0.96 * gyroAngleX);// + (0.04 * accAngleX);
     pitch = (0.96 * gyroAngleY);// + (0.04 * accAngleY);
 
-    printf("yaw: %.3f roll: %.3f pitch: %.3f\n", yaw,roll,pitch);
+    gyroData[0] = yaw;
+    gyroData[1] = roll;
+    gyroData[2] = pitch;
 
-
-/* For BNO085
-    int file;
-    bool mode = false;
-   char buf[2];  
-   char data[READ_SIZE];  
-
-    if ((file = open(I2C_PATH, O_RDWR)) < 0) {
-        perror("Failed to open the bus.");
-        exit(1);
-    }
-
-    // Set I2C device address
     
-    if (ioctl(file, I2C_SLAVE, addr) < 0) {
-        perror("Failed to acquire bus access and/or talk to slave.");
-        close(file);
-        exit(1);
+    unlock();
+}
+
+
+void *gyro_Thread(){
+    while(GYRO_DRIVER_FLAG){
+        gyro_readData();
+        printf("yaw: %.3f roll: %.3f pitch: %.3f\n", gyroData[0],gyroData[1],gyroData[2]);
+    //get reading every 1 second
+    sleepForMs(1000);
     }
+    return NULL;
+}
 
-    if(mode){
-        //ONLY PRINTS OUT 00's
-        //print_gyr_conf();
-        size_t bytesRead = read(file, data,sizeof(data));
-
-                if (bytesRead > 0) {
-               // printf("Read %zu bytes in hexadecimal format:\n", bytesRead);
-                for (size_t i = 0; i < bytesRead; i++) {
-                  //  printf("%02X ", data[i]); // Print each byte in hexadecimal format
-                }
-                printf("\n");
-            } else {
-                printf("Error reading file.\n");
-            }
-    }else{
-
-        buf[0] = 0xF9;  // Command byte according to the documentation, should let me access the gyro data.
-        buf[1] = 0x00;
-        // I dont know what i am supposed to write for the second byte since the documentation only says "reserved"
-        if (write(file, buf, 2) != 2) {
-            perror("Failed to write to I2C bus.");
-            close(file);
-            exit(1);
-        }
-
-
-
-        if (read(file, data, READ_SIZE) != READ_SIZE) {
-            perror("Failed to read from I2C bus.");
-            close(file);
-            exit(1);
-        }
-
-        // Close I2C bus
-        close(file);
-        printf("Raw Gyroscope Data? (Hexadecimal):\n");
-        for (int i = 0; i < READ_SIZE; i++) {
-            printf("%02X ", data[i]);  // Print each byte in hexadecimal format
-        }
-        printf("\n");
-    }
-    */
+void gyro_cleanup(){
+    printf("gyro_cleanup called\n");
+    GYRO_DRIVER_FLAG = false;
+    pthread_join(gyroThreadID,NULL);
+    free(gyroData);
+    printf("gyro_cleanup finished\n");
 }

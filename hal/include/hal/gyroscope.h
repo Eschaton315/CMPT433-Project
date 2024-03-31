@@ -5,8 +5,10 @@
 //and https://github.com/jrowberg/i2cdevlib/tree/master/PIC18 
 //relevant datasheet: https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf 
 
-bool gyro_init(void);
+void gyro_init(void);
 
 void gyro_readData();
+
+void gyro_cleanup();
 
 #endif
