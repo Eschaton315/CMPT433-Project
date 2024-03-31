@@ -1,5 +1,6 @@
 {
     "files.associations": {
+
         "i2c_hal.h": "c",
         "sh2_err.h": "c",
         "stdint.h": "c",
@@ -7,5 +8,8 @@
         //"mpuTest.h": "c",
         "MPU6050.h": "c",
         "errno.h": "c"
+        "type_traits": "cpp",
+        "distancesensor.h": "c"
+
     }
 }

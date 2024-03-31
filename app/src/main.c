@@ -18,6 +18,7 @@
 
 
 int main() {
+
   if(DISTANCE_SENSOR){
     DS_init();
   }
