@@ -9,6 +9,9 @@ add_executable(smart_stick ${MY_SOURCES})
 target_link_libraries(smart_stick LINK_PRIVATE hal)
 target_link_libraries(smart_stick LINK_PRIVATE hal tof)
 
+# Make use of MATH library
+target_link_libraries(smart_stick LINK_PRIVATE m)
+
 # Copy executable to final location
 add_custom_command(TARGET smart_stick POST_BUILD 
   COMMAND "${CMAKE_COMMAND}" -E copy 
