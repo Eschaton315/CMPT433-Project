@@ -21,4 +21,5 @@ int initI2cBus(char *, int);
 void writeI2cReg(int, unsigned char, unsigned char);
 unsigned char readI2cReg(int, unsigned char);
 void writeToFile(FILE *file, char *value);
+void EchoToFile(char* filePath, char* contents);
 #endif
