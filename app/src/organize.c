@@ -25,7 +25,7 @@ static void unlock(){
 
 static pthread_t organizeThreadID;
 
-void *organizer_Thread(void *);
+void *organizer_Thread();
 
 static float sg_coefficients[] = {-3, 12, 17, 12, -3};
 
@@ -105,7 +105,7 @@ float get_smoothed_distanceData(){
 	return distanceStorage[index];	
 }
 
-void *organizer_Thread(void *arg){
+void *organizer_Thread(){
 	while(Get_Terminate() != true){		
 		//collect 2 samples then smooth
 		Collect_Sample();
