@@ -4,6 +4,7 @@
 #include <math.h>
 
 #include "foo.h"
+#include "organize.h"
 #include "hal/pwm.h"
 #include "hal/distanceSensor.h"
 #include "hal/shared.h"

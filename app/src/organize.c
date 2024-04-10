@@ -1,4 +1,4 @@
-#include "organized.h"
+#include "organize.h"
 
 #define WINDOW_SIZE 5
 #define POLY_DEGREE 2
@@ -19,7 +19,7 @@ static void unlock(){
     pthread_mutex_unlock(&organizeMutex);
 }
 
-static pthread_t organizeThreadID;
+//static pthread_t organizeThreadID;
 
 void *organizer_Thread(void *);
 
@@ -27,7 +27,7 @@ static float sg_coefficients[] = {-3, 12, 17, 12, -3};
 
 float* savitzky_golay_smooth(float data[]) {
 	lock();
-    int i, j, k;
+    int i, j;
     float smoothed_data[data_length];
 
     // Iterate over each data point
