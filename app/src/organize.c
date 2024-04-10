@@ -2,7 +2,7 @@
 
 #define WINDOW_SIZE 5
 #define POLY_DEGREE 2
-#define DATA_LEN 10
+#define DATA_LEN 5
 
 static float* yawData;
 static float* rollData;
@@ -27,28 +27,17 @@ static pthread_t organizeThreadID;
 
 void *organizer_Thread();
 
-static float sg_coefficients[] = {-3, 12, 17, 12, -3};
-
-void savitzky_golay_smooth(float data[]) {
+void moving_average_smooth(float* data[]) {
 	lock();
-    int i, j;
-    float smoothed_data[DATA_LEN];
-
-    // Iterate over each data point
-    for (i = 2; i < DATA_LEN - 2; i++) {
-        float sum = 0.0;
-        // Apply convolution with coefficients
-        for (j = -2; j <= 2; j++) {
-            sum += sg_coefficients[j + 2] * data[i + j];
-        }
-        // Store the smoothed value
-        smoothed_data[i] = sum / 35.0; // Sum of coefficients is 35
-    }
-	unlock();
-	
-    for(int k = 0; k < 10; k++){
-		storage[k] = smoothed_data[k];		
+	//Actually using moving average
+	int sum = 0;
+	for (int i = 0; i < DATA_LEN; i++) {
+		sum += data[i];
 	}
+	for (int i = 0; i < DATA_LEN; i++) {
+		storage[i] = sum / (float)DATA_LEN; 
+	}
+	unlock();
 }
 
 void Collect_Sample(){	
@@ -59,7 +48,7 @@ void Collect_Sample(){
 	pitchData[arr_Index] = gyroDataHold[2];
 	distanceStorage[arr_Index] = distance_getData();
 	arr_Index = arr_Index + 1;
-	if(arr_Index == 10){		
+	if(arr_Index < DATA_LEN){		
 		arr_Index = 0;
 	}
 	unlock();
@@ -71,10 +60,10 @@ void Organize_init(){
 	pitchData = malloc(10*sizeof(float));
 	distanceStorage = malloc(10*sizeof(float));
 	storage = malloc(10*sizeof(float));
-	gyroDataHold = malloc(3*sizeof(float));
+	//gyroDataHold = malloc(3*sizeof(float));
 	gyroDataSmoothed = malloc(3*sizeof(float));
 	
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < DATA_LEN; i++){
 		Collect_Sample();
 		
 	}
@@ -83,15 +72,22 @@ void Organize_init(){
 }
 
 void Smooth_Data(){	
-	savitzky_golay_smooth(yawData);
-	yawData = storage;
-	savitzky_golay_smooth(rollData);
-	rollData = storage;
-	savitzky_golay_smooth(pitchData);
-	pitchData = storage;
-	savitzky_golay_smooth(distanceStorage);
-	distanceStorage = storage;
-	
+	moving_average_smooth(yawData);
+	for (int i = 0; i < DATA_LEN; i++){
+		yawData[i] = storage[i];		
+	}
+	moving_average_smooth(rollData);
+	for (int i = 0; i < DATA_LEN; i++){
+		rollData[i] = storage[i];		
+	}	
+	moving_average_smooth(pitchData);
+	for (int i = 0; i < DATA_LEN; i++){
+		pitchData[i] = storage[i];		
+	}
+	moving_average_smooth(distanceStorage);
+	for (int i = 0; i < DATA_LEN; i++){
+		distanceStorage[i] = storage[i];		
+	}
 }
 
 float* get_smoothed_gyroData(){
@@ -107,7 +103,8 @@ float get_smoothed_distanceData(){
 
 void *organizer_Thread(){
 	while(Get_Terminate() != true){		
-		//collect 2 samples then smooth
+		//collect 3 samples then smooth
+		Collect_Sample();
 		Collect_Sample();
 		Collect_Sample();
 		Smooth_Data();
@@ -123,7 +120,7 @@ void organize_cleanup(){
 	free(pitchData);
 	free(distanceStorage);
 	free(storage);
-	free(gyroDataHold);
+	//free(gyroDataHold);
 	free(gyroDataSmoothed);
 	pthread_join(organizeThreadID,NULL);
 	printf("Organize_cleanup Completed\n");

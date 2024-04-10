@@ -15,7 +15,7 @@
 #include "hal/distanceSensor.h"
 #include "hal/shared.h"
 
-void savitzky_golay_smooth(float data[]);
+void moving_average_smooth(float data[]);
 
 void Collect_Initial_Samples();
 
