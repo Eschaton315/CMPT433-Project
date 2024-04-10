@@ -2,21 +2,9 @@
 //and https://github.com/jrowberg/i2cdevlib/tree/master/PIC18 
 //relevant datasheet: https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <math.h>
-#include <fcntl.h>
-#include <stdint.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <linux/i2c-dev.h>
-#include <pthread.h>
 
-//#include "hal/getbno080.h"
-#include "hal/shared.h"
-#include "hal/I2Cdev.h"
-#include "hal/MPU6050.h"
+
+#include "hal/gyroscope.h"
 
 /* for the BNO085
 #define I2C_PATH "/dev/i2c-2"
@@ -122,13 +110,13 @@ void gyro_readData(){
     unlock();
 }
 
+float* gyro_getData(){
+    return gyroData;
+}
 
 void *gyro_Thread(){
     while(GYRO_DRIVER_FLAG){
         gyro_readData();
-        printf("yaw: %.3f roll: %.3f pitch: %.3f\n", gyroData[0],gyroData[1],gyroData[2]);
-    //get reading every 1 second
-    sleepForMs(1000);
     }
     return NULL;
 }

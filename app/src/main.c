@@ -9,6 +9,7 @@
 #include "hal/gyroscope.h"
 #include "hal/I2Cdev.h"
 #include "hal/MPU6050.h"
+#include "hal/joyStick.h"
 
 //Change value depending on whether the hardware is installed or not.
 #define DISTANCE_SENSOR false
@@ -19,6 +20,9 @@
 
 int main() {
 
+  float *gyroData;
+  float yaw,pitch,roll;
+
   if(DISTANCE_SENSOR){
     DS_init();
   }
@@ -26,8 +30,20 @@ int main() {
     gyro_init();
   }
   
+  joystick_init();
+
   // Let DS run for 10 seconds
-  sleepForMs(10000);
+  while(joystick_getJoystickValue()!=4){
+    gyroData = gyro_getData();
+    yaw = gyroData[0];
+    roll = gyroData[1];
+    pitch = gyroData[2];
+    
+    printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f \n",yaw,roll,pitch);
+    sleepForMs(100);
+  }
+
+
   if(DISTANCE_SENSOR){
     DS_cleanup();
   }
