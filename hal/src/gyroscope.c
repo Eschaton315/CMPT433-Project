@@ -36,6 +36,7 @@ static float pitch = 0;
 static float yaw = 0;
 
 float *gyroData;
+float *gyroOffset;
 
 volatile bool GYRO_DRIVER_FLAG = true;
 static pthread_t gyroThreadID;
@@ -52,34 +53,6 @@ static void unlock(){
 
 static void *gyro_Thread();
 
-void gyro_init(void) {
-    runCommand("config-pin p9.19 i2c");
-    runCommand("config-pin p9.20 i2c");
-
-    gyroAngleX = 0;
-    gyroAngleY = 0;
-    yaw = 0;
-    float gyroOffset[3];
-    float gyroSum[3];
-
-    GYRO_DRIVER_FLAG = true;
-    currentTime = getTimeInMs();
-    gyroData = malloc(3*sizeof(float));
-    I2Cdev(2);
-    MPU6050(I2C_ADDR);
-    MPU6050_initialize();
-
-    printf("CALIBRATING\n");
-    /*
-    for(int i =0; i<500;i++){
-        gyro_readData();
-    }
-    */
-
-    printf("CALIBRATION DONE\n");
-    pthread_create(&gyroThreadID, NULL, gyro_Thread,NULL);
-    //return MPU6050_testConnection();
-}
 
 //Derived from: https://howtomechatronics.com/tutorials/arduino/arduino-and-mpu6050-accelerometer-and-gyroscope-tutorial/
 //and https://github.com/jrowberg/i2cdevlib/tree/master/PIC18 
@@ -119,13 +92,53 @@ static void gyro_readData(){
     roll = (0.96 * gyroAngleX);// + (0.04 * accAngleX);
     pitch = (0.96 * gyroAngleY);// + (0.04 * accAngleY);
 
-    gyroData[0] = yaw;
-    gyroData[1] = roll;
-    gyroData[2] = pitch;
+    gyroData[0] = yaw + gyroOffset[0];
+    gyroData[1] = roll+ gyroOffset[1];
+    gyroData[2] = pitch+ gyroOffset[2];
 
     //printf("yaw %0.2f,roll %0.2f,pitch %0.2f\n",yaw,roll,pitch);
     unlock();
 }
+
+void gyro_init(void) {
+    runCommand("config-pin p9.19 i2c");
+    runCommand("config-pin p9.20 i2c");
+
+    gyroAngleX = 0;
+    gyroAngleY = 0;
+    yaw = 0;
+    
+    float gyroSum[3] = {0};
+
+    GYRO_DRIVER_FLAG = true;
+    currentTime = getTimeInMs();
+    gyroData = malloc(3*sizeof(float));
+    gyroOffset = malloc(3*sizeof(float));
+    memset (gyroOffset, 0, 3*sizeof(float));
+
+    I2Cdev(2);
+    MPU6050(I2C_ADDR);
+    MPU6050_initialize();
+
+    printf("CALIBRATING\n");
+    
+    for(int i =0; i<500;i++){
+        gyro_readData();
+        gyroSum[0] = gyroSum[0] + yaw;
+        gyroSum[1] = gyroSum[1] + roll;
+        gyroSum[2] = gyroSum[2] + pitch;
+    }
+    for(int j=0; j<3; j++){
+        gyroOffset[j] = gyroSum[j] / 500.0;        
+    }
+    
+
+    printf("CALIBRATION DONE\n");
+    pthread_create(&gyroThreadID, NULL, gyro_Thread,NULL);
+    //return MPU6050_testConnection();
+}
+
+
 
 float* gyro_getData(){
     return gyroData;
@@ -143,5 +156,6 @@ void gyro_cleanup(){
     GYRO_DRIVER_FLAG = false;
     pthread_join(gyroThreadID,NULL);
     free(gyroData);
+    free(gyroOffset);
     printf("gyro_cleanup finished\n");
 }
