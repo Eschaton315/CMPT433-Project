@@ -60,7 +60,7 @@ static void *gyro_Thread();
 static void gyro_readData(){
     //initialize values
     int16_t ax,ay,az,gx,gy,gz;
-    //float accX,accY,accZ,gyroX,gyroY,gyroZ;
+    //float accX,accY,accZ,gyroX,gyroY,gyroZ; 
     float gyroX,gyroY,gyroZ;
 
     //get Time offset     
