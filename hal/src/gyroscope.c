@@ -59,6 +59,8 @@ void gyro_init(void) {
     gyroAngleX = 0;
     gyroAngleY = 0;
     yaw = 0;
+    float gyroOffset[3];
+    float gyroSum[3];
 
     GYRO_DRIVER_FLAG = true;
     currentTime = getTimeInMs();
@@ -67,6 +69,14 @@ void gyro_init(void) {
     MPU6050(I2C_ADDR);
     MPU6050_initialize();
 
+    printf("CALIBRATING\n");
+    /*
+    for(int i =0; i<500;i++){
+        gyro_readData();
+    }
+    */
+
+    printf("CALIBRATION DONE\n");
     pthread_create(&gyroThreadID, NULL, gyro_Thread,NULL);
     //return MPU6050_testConnection();
 }
