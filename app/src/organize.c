@@ -8,7 +8,7 @@ static float* yawData;
 static float* rollData;
 static float* pitchData;
 static float* distanceStorage;
-static int index = 0;
+static int arr_Index = 0;
 static float* storage;
 static float* gyroDataHold;
 static float* gyroDataSmoothed;
@@ -54,13 +54,13 @@ void savitzky_golay_smooth(float data[]) {
 void Collect_Sample(){	
 	lock();
 	gyroDataHold = gyro_getData();
-	yawData[index] = gyroDataHold[0];
-	rollData[index] = gyroDataHold[1];
-	pitchData[index] = gyroDataHold[2];
-	distanceStorage[index] = distance_getData();
-	index = index + 1;
-	if(index == 10){		
-		index = 0;
+	yawData[arr_Index] = gyroDataHold[0];
+	rollData[arr_Index] = gyroDataHold[1];
+	pitchData[arr_Index] = gyroDataHold[2];
+	distanceStorage[arr_Index] = distance_getData();
+	arr_Index = arr_Index + 1;
+	if(arr_Index == 10){		
+		arr_Index = 0;
 	}
 	unlock();
 }
@@ -95,14 +95,14 @@ void Smooth_Data(){
 }
 
 float* get_smoothed_gyroData(){
-	gyroDataSmoothed[0] = yawData[index];
-	gyroDataSmoothed[1] = rollData[index];
-	gyroDataSmoothed[2] = pitchData[index];
+	gyroDataSmoothed[0] = yawData[arr_Index];
+	gyroDataSmoothed[1] = rollData[arr_Index];
+	gyroDataSmoothed[2] = pitchData[arr_Index];
 	return gyroDataSmoothed;	
 }
 
 float get_smoothed_distanceData(){	
-	return distanceStorage[index];	
+	return distanceStorage[arr_Index];	
 }
 
 void *organizer_Thread(){
