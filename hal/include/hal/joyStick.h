@@ -14,8 +14,6 @@ void joystick_init();
 
 bool joystickPressed(char *path);
 
-void setJoystickValue();
-
 void joystickListener_cleanup();
 
 int joystick_getJoystickValue();

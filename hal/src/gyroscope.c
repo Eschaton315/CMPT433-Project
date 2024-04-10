@@ -22,18 +22,18 @@
 */
 
 
-long long prevTime ;
-long long currentTime = 0;
-float accAngleX = 0;
-float accAngleY = 0;
-float accAngleZ = 0;
-float gyroAngleX = 0;
-float gyroAngleY = 0;
-float gyroAngleZ = 0;
+static long long prevTime ;
+static long long currentTime = 0;
+static float accAngleX = 0;
+static float accAngleY = 0;
+//static float accAngleZ = 0;
+static float gyroAngleX = 0;
+static float gyroAngleY = 0;
+//static float gyroAngleZ = 0;
 
-float roll = 0;
-float pitch = 0;
-float yaw = 0;
+static float roll = 0;
+static float pitch = 0;
+static float yaw = 0;
 
 float *gyroData;
 
@@ -50,16 +50,23 @@ static void unlock(){
 }
 
 
-void *gyro_Thread();
+static void *gyro_Thread();
 
 void gyro_init(void) {
     runCommand("config-pin p9.19 i2c");
     runCommand("config-pin p9.20 i2c");
+
+    gyroAngleX = 0;
+    gyroAngleY = 0;
+    yaw = 0;
+
+    GYRO_DRIVER_FLAG = true;
     currentTime = getTimeInMs();
     gyroData = malloc(3*sizeof(float));
     I2Cdev(2);
     MPU6050(I2C_ADDR);
     MPU6050_initialize();
+
     pthread_create(&gyroThreadID, NULL, gyro_Thread,NULL);
     //return MPU6050_testConnection();
 }
@@ -67,7 +74,7 @@ void gyro_init(void) {
 //Derived from: https://howtomechatronics.com/tutorials/arduino/arduino-and-mpu6050-accelerometer-and-gyroscope-tutorial/
 //and https://github.com/jrowberg/i2cdevlib/tree/master/PIC18 
 //relevant datasheet: https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf 
-void gyro_readData(){
+static void gyro_readData(){
     lock();
     //initialize values
     int16_t ax,ay,az,gx,gy,gz;
@@ -106,7 +113,7 @@ void gyro_readData(){
     gyroData[1] = roll;
     gyroData[2] = pitch;
 
-    
+    //printf("yaw %0.2f,roll %0.2f,pitch %0.2f\n",yaw,roll,pitch);
     unlock();
 }
 
@@ -114,7 +121,7 @@ float* gyro_getData(){
     return gyroData;
 }
 
-void *gyro_Thread(){
+static void *gyro_Thread(){
     while(GYRO_DRIVER_FLAG){
         gyro_readData();
     }
