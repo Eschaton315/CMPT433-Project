@@ -3,7 +3,7 @@
 #include "hal/shared.h"
 
 void MOTOR_init(void) {
-  runCommand("config-pin p9_48 gpio");
+  runCommand("config-pin p9_15 gpio");
   runCommand("echo out > /sys/class/gpio/gpio48/direction");
 }
 
