@@ -116,7 +116,7 @@ void *organizer_Thread(){
 	return NULL;
 }
 
-void oraganize_cleanup(){
+void organize_cleanup(){
 	printf("Organize_cleanup Initiated\n");
 	free(yawData);
 	free(rollData);
