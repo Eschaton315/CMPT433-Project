@@ -27,6 +27,6 @@ void Smooth_Data();
 
 float* get_smoothed_gyroData();
 
-float* get_smoothed_distanceData();
+float get_smoothed_distanceData();
 
 #endif
