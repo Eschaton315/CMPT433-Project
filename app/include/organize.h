@@ -11,7 +11,11 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 
-float* savitzky_golay_smooth(float data[]);
+#include "hal/gyroscope.h"
+#include "hal/distanceSensor.h"
+#include "hal/shared.h"
+
+void savitzky_golay_smooth(float data[]);
 
 void Collect_Initial_Samples();
 

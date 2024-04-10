@@ -3,12 +3,13 @@
 #define WINDOW_SIZE 5
 #define POLY_DEGREE 2
 
-static float gyroDataStorage[3][10];
-static float distanceStorage[10];
+static float* gyroDataStorage;
+static float* distanceStorage;
 static int index = 0;
 static int data_length = 10;
-static float gyroDataSmoothed[3];
-static float gyroDataHold[3];
+static float* gyroDataSmoothed;
+static float* gyroDataHold;
+static float* storage;
 
 static pthread_mutex_t organizeMutex = PTHREAD_MUTEX_INITIALIZER;
 
@@ -19,13 +20,13 @@ static void unlock(){
     pthread_mutex_unlock(&organizeMutex);
 }
 
-//static pthread_t organizeThreadID;
+static pthread_t organizeThreadID;
 
 void *organizer_Thread(void *);
 
 static float sg_coefficients[] = {-3, 12, 17, 12, -3};
 
-float* savitzky_golay_smooth(float data[]) {
+void savitzky_golay_smooth(float data[]) {
 	lock();
     int i, j;
     float smoothed_data[data_length];
@@ -41,7 +42,10 @@ float* savitzky_golay_smooth(float data[]) {
         smoothed_data[i] = sum / 35.0; // Sum of coefficients is 35
     }
 	unlock();
-    return smoothed_data;
+	
+    for(int k = 0; k < 10; k++){
+		storage[k] = smoothed_data[k];		
+	}
 }
 
 
@@ -69,13 +73,23 @@ void Collect_Sample(){
 void Organize_init(){
 	Collect_Initial_Samples();
 	Smooth_Data();
+	gyroDataStorage = malloc(3*10*sizeof(float));
+	distanceStorage = malloc(10*sizeof(float));
+	gyroDataSmoothed = malloc(3*sizeof(float));
+	gyroDataHold = malloc(3*sizeof(float));
+	storage = malloc(10*sizeof(float));
+	pthread_create(&organizeThreadID, NULL, organizer_Thread,NULL);
 }
 
 void Smooth_Data(){	
-	gyroDataStorage[0] = savitzky_golay_smooth(gyroDataStorage[0]);
-	gyroDataStorage[1] = savitzky_golay_smooth(gyroDataStorage[1]);
-	gyroDataStorage[2] = savitzky_golay_smooth(gyroDataStorage[2]);
-	distanceStorage = savitzky_golay_smooth(distanceStorage);
+	savitzky_golay_smooth(gyroDataStorage[0]);
+	gyroDataStorage[0] = storage;
+	savitzky_golay_smooth(gyroDataStorage[1]);
+	gyroDataStorage[1] = storage;
+	savitzky_golay_smooth(gyroDataStorage[2]);
+	gyroDataStorage[2] = storage;
+	savitzky_golay_smooth(distanceStorage);
+	distanceStorage = storage;
 	
 }
 
@@ -101,3 +115,12 @@ void *organizer_Thread(void *arg){
 	return NULL;
 }
 
+void oraganize_cleanup(){
+	printf("Organize_cleanup Initiated\n");
+	free(gyroDataStorage);
+	free(distanceStorage);
+	free(gyroDataSmoothed);
+	free(distanceStorage);
+	pthread_join(organizeThreadID,NULL);
+	printf("Organize_cleanup Completed\n");
+}
