@@ -40,8 +40,6 @@ int main() {
   
   joystick_init();
   configBuzzer();
-
-
   
 
   // Let Gyro Run until right is clicked on the joystick
