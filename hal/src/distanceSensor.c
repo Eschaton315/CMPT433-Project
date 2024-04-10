@@ -9,6 +9,8 @@
 volatile bool DS_DRIVER_FLAG = true;
 static pthread_t sensorThreadID;
 
+static float distance;
+
 void *sensor_Thread(void *);
 
 void DS_init(void) {
@@ -33,10 +35,14 @@ static int DS_getReading() { return tofReadDistance(); }
 void *sensor_Thread(void *arg){
   (void) arg;
   while(DS_DRIVER_FLAG){
-    float distance = (float) DS_getReading() / 10;
-    printf("Distance: %.3f cm\n", distance);
+    distance = (float) DS_getReading() / 10;
+    //printf("Distance: %.3f cm\n", distance);
     // get readings every 1 second
-    sleepForMs(1000);
+    //sleepForMs(1000);
   }
   return NULL;
+}
+
+float distance_getData(){
+	return distance;
 }

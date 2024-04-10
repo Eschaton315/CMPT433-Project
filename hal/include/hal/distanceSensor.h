@@ -17,4 +17,6 @@ void DS_init();
 // cleanup() sets the distance sensor driver flag to false and attmepts to join the sensor thread
 void DS_cleanup();
 
+//Returns float distance
+float distance_getData();
 #endif

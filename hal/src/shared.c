@@ -2,6 +2,8 @@
 
 #include <string.h>
 
+static bool terminate = false;
+
 void writeCmd(char *filepath, char *command) {
   FILE *fs;
   fs = fopen(filepath, "w");
@@ -81,6 +83,7 @@ void writeI2cReg(int i2cFileDesc, unsigned char regAddr, unsigned char value) {
     exit(1);
   }
 }
+
 unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr) {
   int res = write(i2cFileDesc, &regAddr, sizeof(regAddr));
   if (res != sizeof(regAddr)) {
@@ -120,4 +123,12 @@ void EchoToFile(char* filePath, char* contents){
 	close(file);
 
 	return;
+}
+
+void Change_Terminate(bool status){
+	terminate = status;	
+}
+
+bool Get_Terminate(){
+	return terminate;	
 }
