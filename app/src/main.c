@@ -4,6 +4,7 @@
 #include <math.h>
 
 #include "foo.h"
+#include "hal/pwm.h"
 #include "hal/distanceSensor.h"
 #include "hal/shared.h"
 #include "hal/gyroscope.h"
@@ -22,6 +23,9 @@ int main() {
 
   float *gyroData;
   float yaw,pitch,roll;
+  bool fall  = false;
+  long long fallTimer = 0;
+  long long currentTime = 0;
 
   if(DISTANCE_SENSOR){
     DS_init();
@@ -31,8 +35,10 @@ int main() {
   }
   
   joystick_init();
+  configBuzzer();
+  
 
-  // Let DS run for 10 seconds
+  // Let Gyro Run until right is clicked on the joystick
   while(joystick_getJoystickValue()!=4){
     gyroData = gyro_getData();
     yaw = gyroData[0];
@@ -40,6 +46,32 @@ int main() {
     pitch = gyroData[2];
     
     printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f \n",yaw,roll,pitch);
+    if(yaw>70||yaw<-70||pitch>70||pitch<-70){
+
+      if(!fall){
+        fall = true;
+        fallTimer = getTimeInMs();
+      }else{
+        currentTime = getTimeInMs();
+        if(currentTime-fallTimer>1500){
+          //if the stick is parallel to the ground for over 1.5 seconds the stick will recognize a fall
+          while(joystick_getJoystickValue()!=3){
+            printf("FALLEN\n");
+          }
+          fall = false;
+        }
+      }
+    }else{
+      fall = false;
+    }
+    /*
+    if(joystick_getJoystickValue() == 5){
+      //recalibrate joystick
+      gyro_cleanup();
+      printf("RECALIBRATE GYRO");
+      gyro_init();
+    }
+    */
     sleepForMs(100);
   }
 
