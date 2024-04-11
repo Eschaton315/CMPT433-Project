@@ -115,6 +115,7 @@ void *organizer_Thread(){
 
 void organize_cleanup(){
 	printf("Organize_cleanup Initiated\n");
+	pthread_join(organizeThreadID,NULL);
 	free(yawData);
 	free(rollData);
 	free(pitchData);
@@ -122,6 +123,5 @@ void organize_cleanup(){
 	free(storage);
 	//free(gyroDataHold);
 	free(gyroDataSmoothed);
-	pthread_join(organizeThreadID,NULL);
 	printf("Organize_cleanup Completed\n");
 }
