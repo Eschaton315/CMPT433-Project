@@ -22,4 +22,6 @@ void writeI2cReg(int, unsigned char, unsigned char);
 unsigned char readI2cReg(int, unsigned char);
 void writeToFile(FILE *file, char *value);
 void EchoToFile(char* filePath, char* contents);
+void Change_Terminate(bool status);
+bool Get_Terminate();
 #endif

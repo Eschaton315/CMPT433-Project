@@ -4,6 +4,8 @@
 #include <math.h>
 
 #include "foo.h"
+#include "organize.h"
+
 #include "pwmDriver.h"
 #include "hal/pwm.h"
 #include "hal/distanceSensor.h"
