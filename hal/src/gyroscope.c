@@ -97,7 +97,7 @@ static void gyro_readData(){
     gyroAngleZ = gyroAngleZ + (gyroZ * elapsedTime);
 
     //yaw = yaw + gyroZ * elapsedTime; 
-    yaw = (0.04 * gyroAngleZ) + (0.96 * accAngleZ);
+    yaw = (0.96 * gyroAngleZ) + (0.04 * accAngleZ);
     roll = (0.04 * gyroAngleX) + (0.96 * accAngleX);
     pitch = (0.04 * gyroAngleY) + (0.96 * accAngleY);
 
