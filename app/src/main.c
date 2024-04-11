@@ -82,8 +82,8 @@ int main() {
       fall = false;
     }
     
-    //recalibrate gyro value to 0 if joystick is pressed in
-    if(joystick_getJoystickValue() == 5){
+    //recalibrate gyro value to 0 if joystick is pressed up
+    if(joystick_getJoystickValue() == 1){
       gyro_cleanup();
       printf("RECALIBRATE GYRO\n");
       gyro_init();
