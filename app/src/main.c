@@ -5,6 +5,8 @@
 
 #include "foo.h"
 #include "organize.h"
+
+#include "pwmDriver.h"
 #include "hal/pwm.h"
 #include "hal/distanceSensor.h"
 #include "hal/shared.h"
@@ -23,9 +25,11 @@ int main() {
 
   float *gyroData;
   float yaw,pitch,roll;
+  //int distance;
   bool fall  = false;
   long long fallTimer = 0;
   long long currentTime = 0;
+  long long buzzerTimer = 0;
 
   //initialize hardware
 
@@ -46,6 +50,8 @@ int main() {
     yaw = gyroData[0];
     roll = gyroData[1];
     pitch = gyroData[2];
+    //distance = DS_getReading();
+
     //prints gyro value per 0.1 sec.
     printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f \n",yaw,roll,pitch);
     if(yaw>70||yaw<-70||pitch>70||pitch<-70){
@@ -56,10 +62,18 @@ int main() {
       }else{
         currentTime = getTimeInMs();
         if(currentTime-fallTimer>1500){
+          BuzzerMissThreadCreate();
+          buzzerTimer = getTimeInMs();
           //if the stick is parallel to the ground for over 1.5 seconds the stick will recognize a fall
           //The code willl print FALLEN until left joystick is pressed
           while(joystick_getJoystickValue()!=3){
-            printf("FALLEN\n");
+            currentTime = getTimeInMs();
+            if(currentTime-buzzerTimer>1000){
+              BuzzerMissThreadCreate();
+              printf("FALLEN\n");
+              buzzerTimer = currentTime;
+            }
+
           }
           fall = false;
         }
@@ -67,19 +81,18 @@ int main() {
     }else{
       fall = false;
     }
-    //attempt  at resetting the gyro value. Doesn't work as intended for now. 
-    /*
+    
+    //recalibrate gyro value to 0 if joystick is pressed in
     if(joystick_getJoystickValue() == 5){
-      //recalibrate joystick
       gyro_cleanup();
-      printf("RECALIBRATE GYRO");
+      printf("RECALIBRATE GYRO\n");
       gyro_init();
     }
-    */
+    
     sleepForMs(100);
   }
 
-
+  BuzzerMissThreadJoin();
   if(DISTANCE_SENSOR){
     DS_cleanup();
   }

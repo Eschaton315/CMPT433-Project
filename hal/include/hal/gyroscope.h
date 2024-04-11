@@ -23,8 +23,6 @@
 
 void gyro_init(void);
 
-void gyro_readData();
-
 float* gyro_getData();
 
 void gyro_cleanup();

@@ -71,7 +71,7 @@ bool joystickPressed(char *path){
 
 //sets which direction the joystick is pressed
 
-void setJoystickValue(){
+static void setJoystickValue(){
     lock();
     if(joystickPressed(STICK_IN)){
         joystickValue = 5;
