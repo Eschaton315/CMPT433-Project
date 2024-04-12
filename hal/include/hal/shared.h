@@ -24,4 +24,7 @@ void writeToFile(FILE *file, char *value);
 void EchoToFile(char* filePath, char* contents);
 void Change_Terminate(bool status);
 bool Get_Terminate();
+void change_halt(bool status);
+bool get_halt();
+
 #endif

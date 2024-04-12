@@ -106,6 +106,7 @@ float get_smoothed_distanceData(){
 
 void *organizer_Thread(){
 	while(Get_Terminate() != true){		
+		if(!get_halt()){
 		//collect all samples then smooth
 		for(int i = 0; i < DATA_LEN; i++){
 			//printf("COLLECT_THREAD\n");
@@ -115,6 +116,7 @@ void *organizer_Thread(){
 		
 		Smooth_Data();
 		sleepForMs(50);
+		}
 	}	
 	return NULL;
 }

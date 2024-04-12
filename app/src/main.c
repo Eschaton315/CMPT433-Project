@@ -58,7 +58,7 @@ int main() {
 
     //prints gyro value per 0.1 sec.
     printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f distance: %0.2f\n",yaw,roll,pitch,distance);
-    if(yaw>70||yaw<-70||pitch>70||pitch<-70){
+    if(yaw>70||yaw<-70||roll>70||roll<-70||pitch>70||pitch<-70){
 
       //if yaw or pitch is over a set value, wait if it stays in that range to detect a fall.
       if(!fall){
@@ -89,9 +89,16 @@ int main() {
     
     //recalibrate gyro value to 0 if joystick is pressed left
     if(joystick_getJoystickValue() == 3){
+      printf("RECALIBRATE GYRO KEEP CANE STILL\n");
+      change_halt(true);
+      sleepForMs(100);
       gyro_cleanup();
-      printf("RECALIBRATE GYRO\n");
+      
+      
       gyro_init();
+      sleepForMs(100);
+      change_halt(false);
+      printf("GYRO CALIBRATION COMPLETE\n");
     }
     
     sleepForMs(100);

@@ -3,6 +3,7 @@
 #include <string.h>
 
 static bool terminate = false;
+static bool halt = false;
 
 void writeCmd(char *filepath, char *command) {
   FILE *fs;
@@ -131,4 +132,13 @@ void Change_Terminate(bool status){
 
 bool Get_Terminate(){
 	return terminate;	
+
+}
+
+void change_halt(bool status){
+  halt = status;
+}
+
+bool get_halt(){
+  return halt;
 }
