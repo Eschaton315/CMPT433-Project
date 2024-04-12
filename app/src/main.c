@@ -5,6 +5,7 @@
 
 #include "foo.h"
 #include "organize.h"
+#include "hal/motor.h"
 
 #include "pwmDriver.h"
 #include "hal/pwm.h"
@@ -40,6 +41,8 @@ int main() {
     gyro_init();
   }
   
+  
+  MOTOR_init();
   Organize_init();
   joystick_init();
   configBuzzer();
@@ -56,6 +59,11 @@ int main() {
     printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f distance: %0.2f\n",yaw,roll,pitch,distance);
     if(yaw>70||yaw<-70||roll>70||roll<-70||pitch>70||pitch<-70){
 
+
+	  if (distance < 30.000){
+			MOTOR_vibrate(1);		  
+	  }	  
+	  
       //if yaw or pitch is over a set value, wait if it stays in that range to detect a fall.
       if(!fall){
         fall = true;

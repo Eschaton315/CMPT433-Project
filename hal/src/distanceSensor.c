@@ -39,9 +39,7 @@ void *sensor_Thread(void *arg){
   (void) arg;
   srand(time(0)); 
   while(DS_DRIVER_FLAG){
-    //Commented temporarily making dummy code
-	//distance = (float) DS_getReading() / 10;
-	distance = (float)(rand() % (100 - 0 + 1)) + 0;
+	distance = (float) DS_getReading() / 10;
 	
 	
    //printf("Distance: %.3f cm\n", distance);
@@ -52,6 +50,5 @@ void *sensor_Thread(void *arg){
 }
 
 float distance_getData(){
-  //printf("DATA PRE COLLECTION: %0.2f",distance);
 	return distance;
 }
