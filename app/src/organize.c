@@ -52,10 +52,8 @@ void Collect_Sample(){
 	rollData[arr_Index] = gyroDataHold[1];
 	pitchData[arr_Index] = gyroDataHold[2];
 	distanceStorage[arr_Index] = distance_getData();
-	arr_Index = arr_Index + 1;
-	if(arr_Index < DATA_LEN){		
-		arr_Index = 0;
-	}
+	//printf("DATA POST COLLECTION: %.2f\n", distanceStorage[arr_Index]);
+	arr_Index = (arr_Index + 1) % DATA_LEN;
 	unlock();
 }
 
@@ -71,16 +69,18 @@ void Organize_init(){
 	printf("case 2 \n");
 	for(int i = 0; i < DATA_LEN; i++){
 		Collect_Sample();
+		//printf("COLLECT_INIT\n");
+		sleepForMs(50);
 	}
 	for (int i = 0; i < DATA_LEN; i++) {
-			printf("data given Original: %.2f", distanceStorage[i]);
+			//printf("data given Original INIT: %.2f\n", distanceStorage[i]);
 	}	
 	printf("\n");
 	
 	Smooth_Data();
 	
 	for (int i = 0; i < DATA_LEN; i++) {
-			printf("data given smooth: %.2f", distanceStorage[i]);
+		//	printf("data given smooth INIT: %.2f\n", distanceStorage[i]);
 	}	
 	printf("\n");
 	sleepForMs(50);
@@ -112,6 +112,7 @@ void Smooth_Data(){
 }
 
 float* get_smoothed_gyroData(){
+	//what is array index at when its used?
 	if(arr_Index == 0){
 		arr_IndexGrab = 4;		
 	}else{
@@ -135,19 +136,20 @@ float get_smoothed_distanceData(){
 void *organizer_Thread(){
 	while(Get_Terminate() != true){		
 		//collect 3 samples then smooth
-		for(int i = 0; i < arr_Index; i++){
+		for(int i = 0; i < DATA_LEN; i++){
+			//printf("COLLECT_THREAD\n");
 			Collect_Sample();
-			
+			sleepForMs(50);
 		}
 		
 		for (int i = 0; i < DATA_LEN; i++) {
-			printf("data given Original: %.2f", distanceStorage[i]);
+			//printf("data given Original THREAD: %.2f\n", distanceStorage[i]);
 		}	
 		printf("\n");
 		Smooth_Data();
 		
 		for (int i = 0; i < DATA_LEN; i++) {
-			printf("data given Smoothed: %.2f", distanceStorage[i]);
+			//printf("data given Smoothed THREAD: %.2f\n", distanceStorage[i]);
 		}	
 
 		printf("\n");
