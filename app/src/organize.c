@@ -63,7 +63,7 @@ void Organize_init(){
 	printf("case 2 \n");
 	for(int i = 0; i < DATA_LEN; i++){
 		Collect_Sample();
-		sleepForMs(50);
+		sleepForMs(10);
 	}	
 	Smooth_Data();
 
@@ -101,11 +101,6 @@ float* get_smoothed_gyroData(){
 }
 
 float get_smoothed_distanceData(){	
-	if(arr_Index == 0){
-		arr_IndexGrab = 4;		
-	}else{
-		arr_IndexGrab = arr_Index - 1;
-	}
 	return distanceStorage[arr_Index];	
 }
 
@@ -115,7 +110,7 @@ void *organizer_Thread(){
 		for(int i = 0; i < DATA_LEN; i++){
 			//printf("COLLECT_THREAD\n");
 			Collect_Sample();
-			sleepForMs(50);
+			sleepForMs(10);
 		}
 		
 		Smooth_Data();
