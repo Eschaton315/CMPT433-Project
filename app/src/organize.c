@@ -53,7 +53,7 @@ void Collect_Sample(){
 	rollData[arr_Index] = gyroDataHold[1];
 	pitchData[arr_Index] = gyroDataHold[2];
 	distanceStorage[arr_Index] = distance_getData();
-	printf("%d %d \n" , distanceStorage[arr_Index], distance_getData());
+	printf("%.2f %.2f \n" , distanceStorage[arr_Index], distance_getData());
 	arr_Index = arr_Index + 1;
 	if(arr_Index < DATA_LEN){		
 		arr_Index = 0;
