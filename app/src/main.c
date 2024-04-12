@@ -59,6 +59,7 @@ int main() {
     //prints gyro value per 0.1 sec.
     printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f distance: %0.2f\n",yaw,roll,pitch,distance);
     if(yaw>70||yaw<-70||pitch>70||pitch<-70){
+
       //if yaw or pitch is over a set value, wait if it stays in that range to detect a fall.
       if(!fall){
         fall = true;
@@ -69,8 +70,8 @@ int main() {
           BuzzerMissThreadCreate();
           buzzerTimer = getTimeInMs();
           //if the stick is parallel to the ground for over 1.5 seconds the stick will recognize a fall
-          //The code willl print FALLEN until left joystick is pressed
-          while(joystick_getJoystickValue()!=3){
+          //The code willl print FALLEN until down joystick is pressed
+          while(joystick_getJoystickValue()!=2){
             currentTime = getTimeInMs();
             if(currentTime-buzzerTimer>1000){
               BuzzerMissThreadCreate();
@@ -86,8 +87,8 @@ int main() {
       fall = false;
     }
     
-    //recalibrate gyro value to 0 if joystick is pressed up
-    if(joystick_getJoystickValue() == 1){
+    //recalibrate gyro value to 0 if joystick is pressed left
+    if(joystick_getJoystickValue() == 3){
       gyro_cleanup();
       printf("RECALIBRATE GYRO\n");
       gyro_init();
