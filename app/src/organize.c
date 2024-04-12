@@ -55,6 +55,7 @@ void Collect_Sample(){
 }
 
 void Organize_init(){
+	printf("case 1 \n");
 	yawData = malloc(10*sizeof(float));
 	rollData = malloc(10*sizeof(float));
 	pitchData = malloc(10*sizeof(float));
@@ -62,12 +63,13 @@ void Organize_init(){
 	storage = malloc(10*sizeof(float));
 	//gyroDataHold = malloc(3*sizeof(float));
 	gyroDataSmoothed = malloc(3*sizeof(float));
-	
+	printf("case 2 \n");
 	for(int i = 0; i < DATA_LEN; i++){
 		Collect_Sample();
-		
+		printf("case %d\n", i);
 	}
 	Smooth_Data();
+	printf("case whatever \n");
 	pthread_create(&organizeThreadID, NULL, organizer_Thread,NULL);
 }
 
