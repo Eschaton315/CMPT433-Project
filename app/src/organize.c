@@ -2,7 +2,7 @@
 
 #define WINDOW_SIZE 5
 #define POLY_DEGREE 2
-#define DATA_LEN 5
+#define DATA_LEN 9
 
 static float* yawData;
 static float* rollData;
@@ -38,6 +38,7 @@ void moving_average_smooth(float data[]) {
 	for (int i = 0; i < DATA_LEN; i++) {
 		storage[i] = sum / (float)DATA_LEN; 
 	}
+	printf("%.2f, %.2f \n" storage[1], storage[2]);
 	unlock();
 }
 
