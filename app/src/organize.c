@@ -29,7 +29,6 @@ void *organizer_Thread();
 
 void moving_average_smooth(float data[]) {
 	lock();
-	//Actually using moving average
 	int sum = 0;
 	for (int i = 0; i < DATA_LEN; i++) {
 		sum += data[i];
@@ -52,15 +51,12 @@ void Collect_Sample(){
 }
 
 void Organize_init(){
-	printf("case 1 \n");
 	yawData = malloc(10*sizeof(float));
 	rollData = malloc(10*sizeof(float));
 	pitchData = malloc(10*sizeof(float));
 	distanceStorage = malloc(10*sizeof(float));
 	storage = malloc(10*sizeof(float));
-	//gyroDataHold = malloc(3*sizeof(float));
 	gyroDataSmoothed = malloc(3*sizeof(float));
-	printf("case 2 \n");
 	for(int i = 0; i < DATA_LEN; i++){
 		Collect_Sample();
 		sleepForMs(10);
@@ -109,7 +105,6 @@ void *organizer_Thread(){
 		if(!get_halt()){
 		//collect all samples then smooth
 		for(int i = 0; i < DATA_LEN; i++){
-			//printf("COLLECT_THREAD\n");
 			Collect_Sample();
 			sleepForMs(10);
 		}

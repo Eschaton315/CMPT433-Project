@@ -31,7 +31,7 @@ void DS_cleanup(void){
   printf("DS_cleanup finished\n");
 }
 
-//static int DS_getReading() { return tofReadDistance(); }
+static int DS_getReading() { return tofReadDistance(); }
 
 // Might need a function that gets a reading 10 times a second and returns the average
 
