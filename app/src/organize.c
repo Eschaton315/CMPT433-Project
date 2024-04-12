@@ -9,7 +9,7 @@ static float* rollData;
 static float* pitchData;
 static float* distanceStorage;
 static int arr_Index = 0;
-static int arr_IndexGrab = 0;
+static int arr_IndexGrab = 8;
 static float* storage;
 static float* gyroDataHold;
 static float* gyroDataSmoothed;
@@ -42,7 +42,6 @@ void moving_average_smooth(float data[]) {
 	for (int i = 0; i < DATA_LEN; i++) {
 		storage[i] = sum / (float)DATA_LEN; 
 	}
-	printf("storage: %.2f \n", storage[1]);
 	unlock();
 }
 
@@ -53,7 +52,6 @@ void Collect_Sample(){
 	rollData[arr_Index] = gyroDataHold[1];
 	pitchData[arr_Index] = gyroDataHold[2];
 	distanceStorage[arr_Index] = distance_getData();
-	printf("\n distances note: %.2f %.2f \n" , distanceStorage[arr_Index], distance_getData());
 	arr_Index = arr_Index + 1;
 	if(arr_Index < DATA_LEN){		
 		arr_Index = 0;
@@ -127,7 +125,15 @@ void *organizer_Thread(){
 			Collect_Sample();
 			
 		}
+		for (int i = 0; i < DATA_LEN; i++) {
+			printf("data given: %.2f", distanceStorage[i]);
+		}	
+		
 		Smooth_Data();
+		
+		for (int i = 0; i < DATA_LEN; i++) {
+			printf("data given: %.2f", distanceStorage[i]);
+		}	
 		
 	}	
 	return NULL;
