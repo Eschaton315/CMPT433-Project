@@ -9,6 +9,7 @@ static float* rollData;
 static float* pitchData;
 static float* distanceStorage;
 static int arr_Index = 0;
+static int arr_IndexGrab = 0;
 static float* storage;
 static float* gyroDataHold;
 static float* gyroDataSmoothed;
@@ -93,6 +94,11 @@ void Smooth_Data(){
 }
 
 float* get_smoothed_gyroData(){
+	if(arr_Index == 0){
+		arr_IndexGrab = 4;		
+	}else{
+		arr_IndexGrab = arr_Index - 1;
+	}
 	gyroDataSmoothed[0] = yawData[arr_Index];
 	gyroDataSmoothed[1] = rollData[arr_Index];
 	gyroDataSmoothed[2] = pitchData[arr_Index];
@@ -100,6 +106,11 @@ float* get_smoothed_gyroData(){
 }
 
 float get_smoothed_distanceData(){	
+	if(arr_Index == 0){
+		arr_IndexGrab = 4;		
+	}else{
+		arr_IndexGrab = arr_Index - 1;
+	}
 	return distanceStorage[arr_Index];	
 }
 
