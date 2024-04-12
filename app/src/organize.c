@@ -118,7 +118,7 @@ float get_smoothed_distanceData(){
 void *organizer_Thread(){
 	while(Get_Terminate() != true){		
 		//collect 3 samples then smooth
-		for(int i = 0; i < arr_Index){
+		for(int i = 0; i < arr_Index; i++){
 			Collect_Sample();
 			
 		}
