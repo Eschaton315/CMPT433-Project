@@ -33,7 +33,7 @@ void moving_average_smooth(float data[]) {
 	//Actually using moving average
 	int sum = 0;
 	for (int i = 0; i < DATA_LEN; i++) {
-		printf("%.2f", data[i]);
+		printf("data given: %.2f", data[i]);
 	}
 	printf("\n");
 	for (int i = 0; i < DATA_LEN; i++) {
@@ -42,7 +42,7 @@ void moving_average_smooth(float data[]) {
 	for (int i = 0; i < DATA_LEN; i++) {
 		storage[i] = sum / (float)DATA_LEN; 
 	}
-	printf("%.2f \n", storage[1]);
+	printf("storage: %.2f \n", storage[1]);
 	unlock();
 }
 
