@@ -58,11 +58,8 @@ int main() {
     roll = gyroData[1];
     pitch = gyroData[2];
     distance = get_smoothed_distanceData();
-    //distance_getData();
-    //get_smoothed_distanceData();
     if (distance < 50.000){
-      change_motor_flag(true);
-			//MOTOR_vibrate(1);		  
+      change_motor_flag(true);	  
 	  }	else{
       change_motor_flag(false);
     }
