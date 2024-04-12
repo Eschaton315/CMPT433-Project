@@ -2,7 +2,7 @@
 
 #define WINDOW_SIZE 5
 #define POLY_DEGREE 2
-#define DATA_LEN 5
+#define DATA_LEN 3
 
 static float* yawData;
 static float* rollData;
@@ -47,14 +47,12 @@ void Collect_Sample(){
 	rollData[arr_Index] = gyroDataHold[1];
 	pitchData[arr_Index] = gyroDataHold[2];
 	distanceStorage[arr_Index] = distance_getData();
-	arr_Index = arr_Index + 1;
-	if(arr_Index < DATA_LEN){		
-		arr_Index = 0;
-	}
+	arr_Index = (arr_Index + 1) % DATA_LEN;
 	unlock();
 }
 
 void Organize_init(){
+	printf("case 1 \n");
 	yawData = malloc(10*sizeof(float));
 	rollData = malloc(10*sizeof(float));
 	pitchData = malloc(10*sizeof(float));
@@ -62,12 +60,13 @@ void Organize_init(){
 	storage = malloc(10*sizeof(float));
 	//gyroDataHold = malloc(3*sizeof(float));
 	gyroDataSmoothed = malloc(3*sizeof(float));
-	
+	printf("case 2 \n");
 	for(int i = 0; i < DATA_LEN; i++){
 		Collect_Sample();
-		
-	}
+		sleepForMs(10);
+	}	
 	Smooth_Data();
+
 	pthread_create(&organizeThreadID, NULL, organizer_Thread,NULL);
 }
 
@@ -76,14 +75,18 @@ void Smooth_Data(){
 	for (int i = 0; i < DATA_LEN; i++){
 		yawData[i] = storage[i];		
 	}
+
 	moving_average_smooth(rollData);
 	for (int i = 0; i < DATA_LEN; i++){
 		rollData[i] = storage[i];		
 	}	
+
+
 	moving_average_smooth(pitchData);
 	for (int i = 0; i < DATA_LEN; i++){
 		pitchData[i] = storage[i];		
 	}
+
 	moving_average_smooth(distanceStorage);
 	for (int i = 0; i < DATA_LEN; i++){
 		distanceStorage[i] = storage[i];		
@@ -103,19 +106,24 @@ float get_smoothed_distanceData(){
 
 void *organizer_Thread(){
 	while(Get_Terminate() != true){		
-		//collect 3 samples then smooth
-		Collect_Sample();
-		Collect_Sample();
-		Collect_Sample();
-		Smooth_Data();
+		//collect all samples then smooth
+		for(int i = 0; i < DATA_LEN; i++){
+			//printf("COLLECT_THREAD\n");
+			Collect_Sample();
+			sleepForMs(10);
+		}
 		
+		Smooth_Data();
+		sleepForMs(50);
 	}	
 	return NULL;
 }
 
 void organize_cleanup(){
+	Change_Terminate(true);
 	printf("Organize_cleanup Initiated\n");
 	pthread_join(organizeThreadID,NULL);
+	sleepForMs(500);
 	free(yawData);
 	free(rollData);
 	free(pitchData);

@@ -29,4 +29,6 @@ float* get_smoothed_gyroData();
 
 float get_smoothed_distanceData();
 
+void organize_cleanup();
+
 #endif

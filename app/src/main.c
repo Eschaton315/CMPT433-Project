@@ -16,7 +16,7 @@
 #include "hal/joyStick.h"
 
 //Change value depending on whether the hardware is installed or not.
-#define DISTANCE_SENSOR false
+#define DISTANCE_SENSOR true
 #define GYROSCOPE true
 #define I2C_ADDR 0x68
 
@@ -25,7 +25,7 @@ int main() {
 
   float *gyroData;
   float yaw,pitch,roll;
-  //int distance;
+  float distance;
   bool fall  = false;
   long long fallTimer = 0;
   long long currentTime = 0;
@@ -40,21 +40,26 @@ int main() {
     gyro_init();
   }
   
+  Organize_init();
+  
   joystick_init();
   configBuzzer();
+  
+  
   
 
   // Let Gyro Run until right is clicked on the joystick
   while(joystick_getJoystickValue()!=4){
-    gyroData = gyro_getData();
+    gyroData = get_smoothed_gyroData();
     yaw = gyroData[0];
     roll = gyroData[1];
     pitch = gyroData[2];
-    //distance = DS_getReading();
+    distance = get_smoothed_distanceData();
 
     //prints gyro value per 0.1 sec.
-    printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f \n",yaw,roll,pitch);
-    if(yaw>75||yaw<-75||roll>75||roll<-75||pitch>75||pitch<-75){
+    printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f distance: %0.2f\n",yaw,roll,pitch,distance);
+    if(yaw>70||yaw<-70||pitch>70||pitch<-70){
+
       //if yaw or pitch is over a set value, wait if it stays in that range to detect a fall.
       if(!fall){
         fall = true;
@@ -93,6 +98,8 @@ int main() {
   }
 
   BuzzerMissThreadJoin();
+  organize_cleanup();
+  
   if(DISTANCE_SENSOR){
     DS_cleanup();
   }

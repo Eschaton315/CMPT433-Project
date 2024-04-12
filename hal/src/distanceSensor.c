@@ -4,12 +4,15 @@
 #include <stdio.h>
 #include <pthread.h>
 
+//temporary insert
+#include <time.h> 
+
 #include "hal/shared.h"
 
 volatile bool DS_DRIVER_FLAG = true;
 static pthread_t sensorThreadID;
 
-static float distance;
+float distance;
 
 void *sensor_Thread(void *);
 
@@ -28,15 +31,20 @@ void DS_cleanup(void){
   printf("DS_cleanup finished\n");
 }
 
-static int DS_getReading() { return tofReadDistance(); }
+//static int DS_getReading() { return tofReadDistance(); }
 
 // Might need a function that gets a reading 10 times a second and returns the average
 
 void *sensor_Thread(void *arg){
   (void) arg;
+  srand(time(0)); 
   while(DS_DRIVER_FLAG){
-    distance = (float) DS_getReading() / 10;
-    //printf("Distance: %.3f cm\n", distance);
+    //Commented temporarily making dummy code
+	//distance = (float) DS_getReading() / 10;
+	distance = (float)(rand() % (100 - 0 + 1)) + 0;
+	
+	
+   //printf("Distance: %.3f cm\n", distance);
     // get readings every 1 second
     //sleepForMs(1000);
   }
@@ -44,5 +52,6 @@ void *sensor_Thread(void *arg){
 }
 
 float distance_getData(){
+  //printf("DATA PRE COLLECTION: %0.2f",distance);
 	return distance;
 }
