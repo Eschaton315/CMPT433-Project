@@ -32,10 +32,10 @@ void moving_average_smooth(float data[]) {
 	lock();
 	//Actually using moving average
 	int sum = 0;
-	for (int i = 0; i < DATA_LEN; i++) {
+	/*for (int i = 0; i < DATA_LEN; i++) {
 		printf("data given: %.2f", data[i]);
 	}
-	printf("\n");
+	printf("\n");*/
 	for (int i = 0; i < DATA_LEN; i++) {
 		sum += data[i];
 	}
@@ -135,8 +135,8 @@ void *organizer_Thread(){
 		for (int i = 0; i < DATA_LEN; i++) {
 			printf("data given Smoothed: %.2f", distanceStorage[i]);
 		}	
-		*/
-		printf("\n");
+		
+		printf("\n");*/
 	}	
 	return NULL;
 }
