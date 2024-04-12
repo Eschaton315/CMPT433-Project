@@ -114,8 +114,10 @@ void *organizer_Thread(){
 }
 
 void organize_cleanup(){
+	Change_Terminate(true);
 	printf("Organize_cleanup Initiated\n");
 	pthread_join(organizeThreadID,NULL);
+	sleepForMs(500);
 	free(yawData);
 	free(rollData);
 	free(pitchData);

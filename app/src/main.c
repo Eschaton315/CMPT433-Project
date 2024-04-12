@@ -40,20 +40,24 @@ int main() {
     gyro_init();
   }
   
+  Organize_init();
+  
   joystick_init();
   configBuzzer();
+  
+  
   
 
   // Let Gyro Run until right is clicked on the joystick
   while(joystick_getJoystickValue()!=4){
-    gyroData = gyro_getData();
+    gyroData = get_smoothed_gyroData();
     yaw = gyroData[0];
     roll = gyroData[1];
     pitch = gyroData[2];
-    //distance = DS_getReading();
+    distance = get_smoothed_distanceData();
 
     //prints gyro value per 0.1 sec.
-    printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f \n",yaw,roll,pitch);
+    printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f distance: %0.2f\n",yaw,roll,pitch,distance);
     if(yaw>70||yaw<-70||pitch>70||pitch<-70){
       //if yaw or pitch is over a set value, wait if it stays in that range to detect a fall.
       if(!fall){
@@ -93,6 +97,8 @@ int main() {
   }
 
   BuzzerMissThreadJoin();
+  organize_cleanup();
+  
   if(DISTANCE_SENSOR){
     DS_cleanup();
   }

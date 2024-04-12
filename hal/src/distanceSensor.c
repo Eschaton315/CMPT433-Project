@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <pthread.h>
 
+//temporary insert
+#include <time.h> 
+
 #include "hal/shared.h"
 
 volatile bool DS_DRIVER_FLAG = true;
@@ -34,8 +37,13 @@ static int DS_getReading() { return tofReadDistance(); }
 
 void *sensor_Thread(void *arg){
   (void) arg;
+  srand(time(0)); 
   while(DS_DRIVER_FLAG){
-    distance = (float) DS_getReading() / 10;
+    //Commented temporarily making dummy code
+	//distance = (float) DS_getReading() / 10;
+	distance = (float)(rand() % (100 - 0 + 1)) + 0;
+	
+	
     //printf("Distance: %.3f cm\n", distance);
     // get readings every 1 second
     //sleepForMs(1000);
