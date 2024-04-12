@@ -60,7 +60,7 @@ int main() {
     distance = get_smoothed_distanceData();
     //distance_getData();
     //get_smoothed_distanceData();
-    if (distance < 30.000 && distance > 10){
+    if (distance < 50.000){
       change_motor_flag(true);
 			//MOTOR_vibrate(1);		  
 	  }	else{
