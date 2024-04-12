@@ -126,15 +126,15 @@ void *organizer_Thread(){
 			
 		}
 		for (int i = 0; i < DATA_LEN; i++) {
-			printf("data given: %.2f", distanceStorage[i]);
+			printf("data given Original: %.2f", distanceStorage[i]);
 		}	
-		
+		printf("\n");
 		Smooth_Data();
 		
 		for (int i = 0; i < DATA_LEN; i++) {
-			printf("data given: %.2f", distanceStorage[i]);
+			printf("data given Smoothed: %.2f", distanceStorage[i]);
 		}	
-		
+		printf("\n");
 	}	
 	return NULL;
 }
