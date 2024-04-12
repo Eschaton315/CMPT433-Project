@@ -28,7 +28,7 @@ static pthread_t organizeThreadID;
 
 void *organizer_Thread();
 
-void moving_average_smooth(float* data[]) {
+void moving_average_smooth(float data[]) {
 	lock();
 	//Actually using moving average
 	int sum = 0;

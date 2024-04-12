@@ -16,7 +16,7 @@
 #include "hal/joyStick.h"
 
 //Change value depending on whether the hardware is installed or not.
-#define DISTANCE_SENSOR false
+#define DISTANCE_SENSOR true
 #define GYROSCOPE true
 #define I2C_ADDR 0x68
 
@@ -25,7 +25,7 @@ int main() {
 
   float *gyroData;
   float yaw,pitch,roll;
-  //int distance;
+  float distance;
   bool fall  = false;
   long long fallTimer = 0;
   long long currentTime = 0;
