@@ -38,7 +38,7 @@ void moving_average_smooth(float data[]) {
 	for (int i = 0; i < DATA_LEN; i++) {
 		storage[i] = sum / (float)DATA_LEN; 
 	}
-	printf("%.2f, %.2f \n" storage[1], storage[2]);
+	printf("%.2f \n", storage[1]);
 	unlock();
 }
 
@@ -118,9 +118,10 @@ float get_smoothed_distanceData(){
 void *organizer_Thread(){
 	while(Get_Terminate() != true){		
 		//collect 3 samples then smooth
-		Collect_Sample();
-		Collect_Sample();
-		Collect_Sample();
+		for(int i = 0; i < arr_Index){
+			Collect_Sample();
+			
+		}
 		Smooth_Data();
 		
 	}	
