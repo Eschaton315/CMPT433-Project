@@ -58,15 +58,18 @@ int main() {
     roll = gyroData[1];
     pitch = gyroData[2];
     distance = get_smoothed_distanceData();
+    //distance_getData();
+    //get_smoothed_distanceData();
+    if (distance < 30.000 && distance > 10){
+      change_motor_flag(true);
+			//MOTOR_vibrate(1);		  
+	  }	else{
+      change_motor_flag(false);
+    }
 
     //prints gyro value per 0.1 sec.
     printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f distance: %0.2f\n",yaw,roll,pitch,distance);
     if(yaw>70||yaw<-70||roll>70||roll<-70||pitch>70||pitch<-70){
-
-
-	  if (distance < 30.000){
-			MOTOR_vibrate(1);		  
-	  }	  
 	  
       //if yaw or pitch is over a set value, wait if it stays in that range to detect a fall.
       if(!fall){

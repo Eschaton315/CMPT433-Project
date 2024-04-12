@@ -39,8 +39,8 @@ void *sensor_Thread(void *arg){
   (void) arg;
   srand(time(0)); 
   while(DS_DRIVER_FLAG){
-	distance = (float) DS_getReading() / 10;
-	
+	  distance = (float) DS_getReading() / 10;
+    sleepForMs(50);
 	
    //printf("Distance: %.3f cm\n", distance);
     // get readings every 1 second

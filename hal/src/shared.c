@@ -4,6 +4,7 @@
 
 static bool terminate = false;
 static bool halt = false;
+static bool motor_flag = false;
 
 void writeCmd(char *filepath, char *command) {
   FILE *fs;
@@ -141,4 +142,12 @@ void change_halt(bool status){
 
 bool get_halt(){
   return halt;
+}
+
+void change_motor_flag(bool status){
+  motor_flag = status;
+}
+
+bool get_motor_flag(){
+  return motor_flag;
 }

@@ -26,5 +26,7 @@ void Change_Terminate(bool status);
 bool Get_Terminate();
 void change_halt(bool status);
 bool get_halt();
+void change_motor_flag(bool status);
+bool get_motor_flag();
 
 #endif
