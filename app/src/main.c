@@ -34,6 +34,10 @@ int main() {
 
   //initialize hardware
 
+  printf("DOWN: Stop alarm\n");
+  printf("LEFT: Recalibrate Gyro\n");
+  printf("RIGHT: Stop Program\n");
+
   if(DISTANCE_SENSOR){
     DS_init();
   }
@@ -102,7 +106,6 @@ int main() {
       gyro_init();
       sleepForMs(100);
       change_halt(false);
-      printf("GYRO CALIBRATION COMPLETE\n");
     }
     
     sleepForMs(100);
