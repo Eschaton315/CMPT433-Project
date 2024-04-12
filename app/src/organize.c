@@ -71,42 +71,44 @@ void Organize_init(){
 	printf("case 2 \n");
 	for(int i = 0; i < DATA_LEN; i++){
 		Collect_Sample();
-		printf("case %d\n", i);
 	}
+	for (int i = 0; i < DATA_LEN; i++) {
+			printf("data given Original: %.2f", distanceStorage[i]);
+	}	
+	printf("\n");
+	
 	Smooth_Data();
-	printf("case whatever \n");
+	
+	for (int i = 0; i < DATA_LEN; i++) {
+			printf("data given smooth: %.2f", distanceStorage[i]);
+	}	
+	printf("\n");
+	sleepForMs(50);
+
 	pthread_create(&organizeThreadID, NULL, organizer_Thread,NULL);
 }
 
 void Smooth_Data(){	
 	moving_average_smooth(yawData);
-	lock();
 	for (int i = 0; i < DATA_LEN; i++){
 		yawData[i] = storage[i];		
 	}
-	unlock();
-	
-	lock();
+
 	moving_average_smooth(rollData);
 	for (int i = 0; i < DATA_LEN; i++){
 		rollData[i] = storage[i];		
 	}	
-	
-	unlock();
-	
-	lock();
+
+
 	moving_average_smooth(pitchData);
 	for (int i = 0; i < DATA_LEN; i++){
 		pitchData[i] = storage[i];		
 	}
-	
-	unlock();
-	lock();
+
 	moving_average_smooth(distanceStorage);
 	for (int i = 0; i < DATA_LEN; i++){
 		distanceStorage[i] = storage[i];		
 	}
-	unlock();
 }
 
 float* get_smoothed_gyroData(){
@@ -137,7 +139,7 @@ void *organizer_Thread(){
 			Collect_Sample();
 			
 		}
-		/*
+		
 		for (int i = 0; i < DATA_LEN; i++) {
 			printf("data given Original: %.2f", distanceStorage[i]);
 		}	
@@ -147,8 +149,9 @@ void *organizer_Thread(){
 		for (int i = 0; i < DATA_LEN; i++) {
 			printf("data given Smoothed: %.2f", distanceStorage[i]);
 		}	
-		
-		printf("\n");*/
+
+		printf("\n");
+		sleepForMs(50);
 	}	
 	return NULL;
 }
