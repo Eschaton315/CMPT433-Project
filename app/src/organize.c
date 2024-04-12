@@ -80,21 +80,33 @@ void Organize_init(){
 
 void Smooth_Data(){	
 	moving_average_smooth(yawData);
+	lock();
 	for (int i = 0; i < DATA_LEN; i++){
 		yawData[i] = storage[i];		
 	}
+	unlock();
+	
+	lock();
 	moving_average_smooth(rollData);
 	for (int i = 0; i < DATA_LEN; i++){
 		rollData[i] = storage[i];		
 	}	
+	
+	unlock();
+	
+	lock();
 	moving_average_smooth(pitchData);
 	for (int i = 0; i < DATA_LEN; i++){
 		pitchData[i] = storage[i];		
 	}
+	
+	unlock();
+	lock();
 	moving_average_smooth(distanceStorage);
 	for (int i = 0; i < DATA_LEN; i++){
 		distanceStorage[i] = storage[i];		
 	}
+	unlock();
 }
 
 float* get_smoothed_gyroData(){
