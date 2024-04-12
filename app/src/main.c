@@ -54,7 +54,7 @@ int main() {
 
     //prints gyro value per 0.1 sec.
     printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f \n",yaw,roll,pitch);
-    if(yaw>75||yaw<-75||pitch>75||pitch<-75){
+    if(yaw>75||yaw<-75||roll>75||roll<-75||pitch>75||pitch<-75){
       //if yaw or pitch is over a set value, wait if it stays in that range to detect a fall.
       if(!fall){
         fall = true;
