@@ -2,14 +2,13 @@
 
 #define WINDOW_SIZE 5
 #define POLY_DEGREE 2
-#define DATA_LEN 9
+#define DATA_LEN 3
 
 static float* yawData;
 static float* rollData;
 static float* pitchData;
 static float* distanceStorage;
 static int arr_Index = 0;
-static int arr_IndexGrab = 8;
 static float* storage;
 static float* gyroDataHold;
 static float* gyroDataSmoothed;
@@ -32,10 +31,6 @@ void moving_average_smooth(float data[]) {
 	lock();
 	//Actually using moving average
 	int sum = 0;
-	/*for (int i = 0; i < DATA_LEN; i++) {
-		printf("data given: %.2f", data[i]);
-	}
-	printf("\n");*/
 	for (int i = 0; i < DATA_LEN; i++) {
 		sum += data[i];
 	}
@@ -52,7 +47,6 @@ void Collect_Sample(){
 	rollData[arr_Index] = gyroDataHold[1];
 	pitchData[arr_Index] = gyroDataHold[2];
 	distanceStorage[arr_Index] = distance_getData();
-	//printf("DATA POST COLLECTION: %.2f\n", distanceStorage[arr_Index]);
 	arr_Index = (arr_Index + 1) % DATA_LEN;
 	unlock();
 }
@@ -69,21 +63,9 @@ void Organize_init(){
 	printf("case 2 \n");
 	for(int i = 0; i < DATA_LEN; i++){
 		Collect_Sample();
-		//printf("COLLECT_INIT\n");
 		sleepForMs(50);
-	}
-	for (int i = 0; i < DATA_LEN; i++) {
-			//printf("data given Original INIT: %.2f\n", distanceStorage[i]);
 	}	
-	printf("\n");
-	
 	Smooth_Data();
-	
-	for (int i = 0; i < DATA_LEN; i++) {
-		//	printf("data given smooth INIT: %.2f\n", distanceStorage[i]);
-	}	
-	printf("\n");
-	sleepForMs(50);
 
 	pthread_create(&organizeThreadID, NULL, organizer_Thread,NULL);
 }
@@ -112,12 +94,6 @@ void Smooth_Data(){
 }
 
 float* get_smoothed_gyroData(){
-	//what is array index at when its used?
-	if(arr_Index == 0){
-		arr_IndexGrab = 4;		
-	}else{
-		arr_IndexGrab = arr_Index - 1;
-	}
 	gyroDataSmoothed[0] = yawData[arr_Index];
 	gyroDataSmoothed[1] = rollData[arr_Index];
 	gyroDataSmoothed[2] = pitchData[arr_Index];
@@ -135,24 +111,14 @@ float get_smoothed_distanceData(){
 
 void *organizer_Thread(){
 	while(Get_Terminate() != true){		
-		//collect 3 samples then smooth
+		//collect all samples then smooth
 		for(int i = 0; i < DATA_LEN; i++){
 			//printf("COLLECT_THREAD\n");
 			Collect_Sample();
 			sleepForMs(50);
 		}
 		
-		for (int i = 0; i < DATA_LEN; i++) {
-			//printf("data given Original THREAD: %.2f\n", distanceStorage[i]);
-		}	
-		printf("\n");
 		Smooth_Data();
-		
-		for (int i = 0; i < DATA_LEN; i++) {
-			//printf("data given Smoothed THREAD: %.2f\n", distanceStorage[i]);
-		}	
-
-		printf("\n");
 		sleepForMs(50);
 	}	
 	return NULL;
