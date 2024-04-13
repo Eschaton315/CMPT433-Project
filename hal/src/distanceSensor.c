@@ -1,13 +1,9 @@
 #include "hal/distanceSensor.h"
+#include "hal/shared.h"
 
 #include <tof.h>
 #include <stdio.h>
 #include <pthread.h>
-
-//temporary insert
-#include <time.h> 
-
-#include "hal/shared.h"
 
 volatile bool DS_DRIVER_FLAG = true;
 static pthread_t sensorThreadID;
@@ -16,6 +12,8 @@ float distance;
 
 void *sensor_Thread(void *);
 
+// Current system uses P9.17/18 for I2C, must change these if using different pins
+// Refer to BeagleBone manual for correct pin usage
 void DS_init(void) {
   runCommand("config-pin p9.17 i2c");
   runCommand("config-pin p9.18 i2c");
@@ -31,6 +29,7 @@ void DS_cleanup(void){
   printf("DS_cleanup finished\n");
 }
 
+// Wrapper function to call tofReadDistance() from tof library
 static int DS_getReading() { return tofReadDistance(); }
 
 
