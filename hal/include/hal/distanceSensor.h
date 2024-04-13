@@ -7,6 +7,9 @@
 
 /*
 Header file for running the Distance Sensor
+This module uses the tof library to setup and read values from the tof sensor
+Repo found here: https://github.com/bitbank2/VL53L0X
+The library must be imported in order for this module to work.
 */
 
 // DS_init() must be called before calling any other function in this library
