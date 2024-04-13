@@ -1,5 +1,4 @@
 #include "hal/shared.h"
-
 #include <string.h>
 
 static bool terminate = false;
@@ -7,7 +6,7 @@ static bool halt = false;
 static bool motor_flag = false;
 
 
-
+// Assumes running a linux command on a linux system
 void runCommand(char *command) {
   FILE *pipe = popen(command, "r");
 
@@ -28,13 +27,12 @@ void runCommand(char *command) {
 
 long long getTimeInMs()
 {
-struct timespec spec;
-clock_gettime(CLOCK_REALTIME, &spec);
-long long seconds = spec.tv_sec;
-long long nanoSeconds = spec.tv_nsec;
-long long milliSeconds = seconds * 1000
-+ nanoSeconds / 1000000;
-return milliSeconds;
+  struct timespec spec;
+  clock_gettime(CLOCK_REALTIME, &spec);
+  long long seconds = spec.tv_sec;
+  long long nanoSeconds = spec.tv_nsec;
+  long long milliSeconds = seconds * 1000 + nanoSeconds / 1000000;
+  return milliSeconds;
 }
 
 void sleepForMs(long long delayInMs) {
@@ -115,18 +113,18 @@ bool Get_Terminate(){
 
 }
 
-void change_halt(bool status){
+void Change_halt(bool status){
   halt = status;
 }
 
-bool get_halt(){
+bool Get_halt(){
   return halt;
 }
 
-void change_motor_flag(bool status){
+void Change_motor_flag(bool status){
   motor_flag = status;
 }
 
-bool get_motor_flag(){
+bool Get_motor_flag(){
   return motor_flag;
 }

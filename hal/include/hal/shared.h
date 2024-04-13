@@ -52,16 +52,16 @@ void Change_Terminate(bool status);
 bool Get_Terminate();
 
 // Changes the halt flag to status
-void change_halt(bool status);
+void Change_halt(bool status);
 
 // Returns the value of halt flag
-bool get_halt();
+bool Get_halt();
 
 // Changes the value of motor flag to status
 // Used by the motor module to initiate driving the vibration motor
-void change_motor_flag(bool status);
+void Change_motor_flag(bool status);
 
 // Returns the value of motor flag
-bool get_motor_flag();
+bool Get_motor_flag();
 
 #endif
