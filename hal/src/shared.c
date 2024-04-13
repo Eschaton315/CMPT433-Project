@@ -6,20 +6,7 @@ static bool terminate = false;
 static bool halt = false;
 static bool motor_flag = false;
 
-void writeCmd(char *filepath, char *command) {
-  FILE *fs;
-  fs = fopen(filepath, "w");
-  if (fs == NULL) {
-    printf("Error opening %s, exiting. . .\n", filepath);
-    exit(-1);
-  }
-  int charWritten = fprintf(fs, command);
-  if (charWritten <= 0) {
-    printf("Error writing data, exiting. . .\n");
-    exit(-1);
-  }
-  fclose(fs);
-}
+
 
 void runCommand(char *command) {
   FILE *pipe = popen(command, "r");
@@ -102,14 +89,6 @@ unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr) {
   return value;
 }
 
-void writeToFile(FILE *file, char *value) {
-  int charWritten = 0;
-  charWritten = fprintf(file, value);
-  if (charWritten <= 0) {
-    printf("Error, writing data\n");
-    exit(-1);
-  }
-}
 
 //echo to file for editing their values
 void EchoToFile(char* filePath, char* contents){
