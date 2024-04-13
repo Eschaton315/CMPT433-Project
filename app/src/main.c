@@ -59,9 +59,9 @@ int main() {
     pitch = gyroData[2];
     distance = get_smoothed_distanceData();
     if (distance < 50.000){
-      change_motor_flag(true);	  
+      Change_motor_flag(true);	  
 	  }	else{
-      change_motor_flag(false);
+      Change_motor_flag(false);
     }
 
     //prints gyro value per 0.1 sec.
@@ -98,14 +98,14 @@ int main() {
     //recalibrate gyro value to 0 if joystick is pressed left
     if(joystick_getJoystickValue() == 3){
       printf("RECALIBRATE GYRO KEEP CANE STILL\n");
-      change_halt(true);
+      Change_halt(true);
       sleepForMs(100);
       gyro_cleanup();
       
       
       gyro_init();
       sleepForMs(100);
-      change_halt(false);
+      Change_halt(false);
     }
     
     sleepForMs(100);
