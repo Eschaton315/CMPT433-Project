@@ -41,7 +41,7 @@ static void unlock(){
 
 static void *gyro_Thread();
 
-
+//Main function that read the data values from the gyroscope and accelerometer
 static void gyro_readData(){
     //initialize values
     int16_t ax,ay,az,gx,gy,gz;
@@ -74,7 +74,7 @@ static void gyro_readData(){
     roll = (0.04 * gyroAngleX) + (0.96 * accAngleX);
     pitch = (0.04 * gyroAngleY) + (0.96 * accAngleY);
 
-
+    //update data to calculated values
     lock();
     gyroData[0] = yaw - gyroOffset[0];
     gyroData[1] = roll - gyroOffset[1];
@@ -83,6 +83,8 @@ static void gyro_readData(){
     unlock();
 }
 
+
+//Initialization function to start the thread that reads hardware data
 void gyro_init(void) {
     runCommand("config-pin p9.19 i2c");
     runCommand("config-pin p9.20 i2c");
@@ -114,6 +116,7 @@ void gyro_init(void) {
         gyroSum[1] = gyroSum[1] + roll;
         gyroSum[2] = gyroSum[2] + pitch;
     }
+    
     for(int j=0; j<3; j++){
         gyroOffset[j] = gyroSum[j] / 500.0;        
     }
@@ -131,11 +134,12 @@ void gyro_init(void) {
 }
 
 
-
+//Returns an array containing the saved yaw, roll and pitch values.
 float* gyro_getData(){
     return gyroData;
 }
 
+//thread called by init function.
 static void *gyro_Thread(){
     while(GYRO_DRIVER_FLAG){
         gyro_readData();
@@ -143,6 +147,7 @@ static void *gyro_Thread(){
     return NULL;
 }
 
+//cleanup function that stops the thread and frees all relevant memeory.
 void gyro_cleanup(){
     printf("gyro_cleanup called\n");
     GYRO_DRIVER_FLAG = false;

@@ -73,21 +73,31 @@ int main() {
       //Detect initial fall threshold
       //If the stick passes the threshold for over 1.5 seconds the stick will recognize a fall
       if(!fall){
+
         fall = true;
         fallTimer = getTimeInMs();
+
       }else{
+
         currentTime = getTimeInMs();
+
         if(currentTime-fallTimer>1500){
+          
           //A fall has been detected and will start a buzzer to initiate alarm
           BuzzerMissThreadCreate();
           buzzerTimer = getTimeInMs();
           //Print FALLEN until down joystick is pressed to cancel the alarm
+          
           while(joystick_getJoystickValue()!=2){
+
             currentTime = getTimeInMs();
+
             if(currentTime-buzzerTimer>1000){
+
               BuzzerMissThreadCreate();
               printf("FALLEN\n");
               buzzerTimer = currentTime;
+
             }
           }
           //Alarm turned off
@@ -122,6 +132,7 @@ int main() {
   if(DISTANCE_SENSOR){
     DS_cleanup();
   }
+
   if(GYROSCOPE){
     gyro_cleanup();
   }
