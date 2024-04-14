@@ -35,14 +35,15 @@ runCommand("config-pin p8.17 gpio");
 
 static void *joystickListener();
 
+//Initiates the thread for joystick after configuring GPIO
 void joystick_init(){
     configPinGPIO();
     pthread_create(&joystickThread, NULL, &joystickListener,NULL);
     return;
 }
 
-//Boolean of whether a joystick of designated path is pressed
 
+//Returns boolean of whether a joystick of designated path is pressed
 bool joystickPressed(char *path){
 
     FILE *pFile = fopen(path, "r");
@@ -70,7 +71,6 @@ bool joystickPressed(char *path){
 }
 
 //sets which direction the joystick is pressed
-
 static void setJoystickValue(){
     lock();
     if(joystickPressed(STICK_IN)){
@@ -89,7 +89,7 @@ static void setJoystickValue(){
     unlock();
 }
 
-
+//Constantly listen to joystick and get its value
 static void *joystickListener(){
     while(!stopListen){
         setJoystickValue();
@@ -98,7 +98,7 @@ static void *joystickListener(){
 }
 
 
-
+//Cleanup function of joystick thread
 void joystickListener_cleanup(){
     stopListen = true;
     pthread_join(joystickThread,NULL);

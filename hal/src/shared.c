@@ -6,6 +6,7 @@ static bool halt = false;
 static bool motor_flag = false;
 
 
+// Runs provided termminal command
 // Assumes running a linux command on a linux system
 void runCommand(char *command) {
   FILE *pipe = popen(command, "r");
@@ -25,6 +26,7 @@ void runCommand(char *command) {
   }
 }
 
+// Returns system real time clock in nanoseconds
 long long getTimeInMs()
 {
   struct timespec spec;
@@ -35,6 +37,7 @@ long long getTimeInMs()
   return milliSeconds;
 }
 
+// Sleeps the calling thread for specified amount of milliseconds
 void sleepForMs(long long delayInMs) {
   const long long NS_PER_MS = 1000 * 1000;
   const long long NS_PER_SECOND = 1000000000;
@@ -50,6 +53,7 @@ void sleepForMs(long long delayInMs) {
 /*
 Following Code taken from Dr. Brian Fraser's I2C Guide, pages 10,11
 */
+//Sets specified I2C device address to slave address 
 int initI2cBus(char *bus, int address) {
   int i2cFileDesc = open(bus, O_RDWR);
   int result = ioctl(i2cFileDesc, I2C_SLAVE, address);
@@ -60,6 +64,9 @@ int initI2cBus(char *bus, int address) {
   return i2cFileDesc;
 }
 
+// Writes the value into the designated i2c device register address 
+// Must provide a valid i2cFileDescriptor and valid register address
+// Code taken from Dr. Brian Fraser's I2C guide
 void writeI2cReg(int i2cFileDesc, unsigned char regAddr, unsigned char value) {
   unsigned char buff[2];
   buff[0] = regAddr;
@@ -71,6 +78,8 @@ void writeI2cReg(int i2cFileDesc, unsigned char regAddr, unsigned char value) {
   }
 }
 
+// Returns contents of the designated I2C device register address
+// Code taken from Dr. Brian Fraser's I2C guide
 unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr) {
   int res = write(i2cFileDesc, &regAddr, sizeof(regAddr));
   if (res != sizeof(regAddr)) {
@@ -87,8 +96,8 @@ unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr) {
   return value;
 }
 
-
-//echo to file for editing their values
+// Writes contents into the designated file
+// Mimics the functionality of "echo" command
 void EchoToFile(char* filePath, char* contents){
 	// Open direction file
 	int file = open(filePath, O_WRONLY);
@@ -104,27 +113,34 @@ void EchoToFile(char* filePath, char* contents){
 	return;
 }
 
+//Changes the terminate flag to status
 void Change_Terminate(bool status){
 	terminate = status;	
 }
 
+// Returns the value of terminate flag
 bool Get_Terminate(){
 	return terminate;	
 
 }
 
+// Changes the halt flag to status
 void Change_halt(bool status){
   halt = status;
 }
 
+// Returns the value of halt flag
 bool Get_halt(){
   return halt;
 }
 
+// Changes the value of motor flag to status
+// Used by the motor module to initiate driving the vibration motor
 void Change_motor_flag(bool status){
   motor_flag = status;
 }
 
+// Returns the value of motor flag
 bool Get_motor_flag(){
   return motor_flag;
 }

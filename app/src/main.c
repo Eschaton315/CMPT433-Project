@@ -3,7 +3,6 @@
 #include <sys/ioctl.h>
 #include <math.h>
 
-#include "foo.h"
 #include "organize.h"
 #include "pwmDriver.h"
 #include "hal/motor.h"
