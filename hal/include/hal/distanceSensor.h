@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#define DISTANCE_SENSOR_ADDR 0x29 // Defined in datasheet of VL53L0X, refer to VL53L0X datasheet if intending to change address via software
+#define DISTANCE_SENSOR_ADDR 0x29  // Component address
 
 /*
 Header file for running the Distance Sensor
@@ -21,6 +21,7 @@ void DS_init();
 // cleanup() sets the distance sensor driver flag to false and attmepts to join the sensor thread
 void DS_cleanup();
 
-//Returns distance value
+// Returns distance value
 float distance_getData();
+
 #endif
