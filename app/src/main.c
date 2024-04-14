@@ -5,9 +5,8 @@
 
 #include "foo.h"
 #include "organize.h"
-#include "hal/motor.h"
-
 #include "pwmDriver.h"
+#include "hal/motor.h"
 #include "hal/pwm.h"
 #include "hal/distanceSensor.h"
 #include "hal/shared.h"
@@ -32,11 +31,14 @@ int main() {
   long long currentTime = 0;
   long long buzzerTimer = 0;
 
-  //initialize hardware
+  //Since the beaglebone is upside down on the cane, the comments will refer to the direction referred in the code.
+  //The following print statement will show the opposite to reflect the orientation of the beaglebone.
 
-  printf("DOWN: Stop alarm\n");
-  printf("LEFT: Recalibrate Gyro\n");
-  printf("RIGHT: Stop Program\n");
+  printf("UP: Stop alarm\n");
+  printf("RIGHT: Recalibrate Gyro\n");
+  printf("LEFT Stop Program\n");
+
+  //initialize hardware
 
   if(DISTANCE_SENSOR){
     DS_init();
@@ -44,8 +46,6 @@ int main() {
   if(GYROSCOPE){
     gyro_init();
   }
-  
-  
   MOTOR_init();
   Organize_init();
   joystick_init();
@@ -64,21 +64,24 @@ int main() {
       change_motor_flag(false);
     }
 
-    //prints gyro value per 0.1 sec.
+    //prints gyro value
     printf("Yaw: %0.2f Roll: %0.2f  Pitch: %0.2f distance: %0.2f\n",yaw,roll,pitch,distance);
+
+    //If yaw, roll, or pitch is over a set value, wait if it stays in that range for 1.5 seconds to detect a fall.
     if(yaw>70||yaw<-70||roll>70||roll<-70||pitch>70||pitch<-70){
 	  
-      //if yaw or pitch is over a set value, wait if it stays in that range to detect a fall.
+      //Detect initial fall threshold
+      //If the stick passes the threshold for over 1.5 seconds the stick will recognize a fall
       if(!fall){
         fall = true;
         fallTimer = getTimeInMs();
       }else{
         currentTime = getTimeInMs();
         if(currentTime-fallTimer>1500){
+          //A fall has been detected and will start a buzzer to initiate alarm
           BuzzerMissThreadCreate();
           buzzerTimer = getTimeInMs();
-          //if the stick is parallel to the ground for over 1.5 seconds the stick will recognize a fall
-          //The code willl print FALLEN until down joystick is pressed
+          //Print FALLEN until down joystick is pressed to cancel the alarm
           while(joystick_getJoystickValue()!=2){
             currentTime = getTimeInMs();
             if(currentTime-buzzerTimer>1000){
@@ -86,31 +89,33 @@ int main() {
               printf("FALLEN\n");
               buzzerTimer = currentTime;
             }
-
           }
+          //Alarm turned off
           fall = false;
         }
       }
     }else{
+      //Threshold not maintained so alarm will not start
       fall = false;
     }
     
-    //recalibrate gyro value to 0 if joystick is pressed left
+    //Recalibrate gyro value to 0 if joystick is pressed left
+    //Clean up and reinitiate the gyro thread
+    //Set halt to prevent other functions from reading gyro data
     if(joystick_getJoystickValue() == 3){
       printf("RECALIBRATE GYRO KEEP CANE STILL\n");
       change_halt(true);
       sleepForMs(100);
       gyro_cleanup();
       
-      
       gyro_init();
       sleepForMs(100);
       change_halt(false);
     }
-    
     sleepForMs(100);
   }
 
+  //Start clean up
   BuzzerMissThreadJoin();
   organize_cleanup();
   
