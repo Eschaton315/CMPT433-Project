@@ -1,26 +1,12 @@
 #include "hal/shared.h"
-
 #include <string.h>
 
 static bool terminate = false;
 static bool halt = false;
 static bool motor_flag = false;
 
-void writeCmd(char *filepath, char *command) {
-  FILE *fs;
-  fs = fopen(filepath, "w");
-  if (fs == NULL) {
-    printf("Error opening %s, exiting. . .\n", filepath);
-    exit(-1);
-  }
-  int charWritten = fprintf(fs, command);
-  if (charWritten <= 0) {
-    printf("Error writing data, exiting. . .\n");
-    exit(-1);
-  }
-  fclose(fs);
-}
 
+// Assumes running a linux command on a linux system
 void runCommand(char *command) {
   FILE *pipe = popen(command, "r");
 
@@ -41,13 +27,12 @@ void runCommand(char *command) {
 
 long long getTimeInMs()
 {
-struct timespec spec;
-clock_gettime(CLOCK_REALTIME, &spec);
-long long seconds = spec.tv_sec;
-long long nanoSeconds = spec.tv_nsec;
-long long milliSeconds = seconds * 1000
-+ nanoSeconds / 1000000;
-return milliSeconds;
+  struct timespec spec;
+  clock_gettime(CLOCK_REALTIME, &spec);
+  long long seconds = spec.tv_sec;
+  long long nanoSeconds = spec.tv_nsec;
+  long long milliSeconds = seconds * 1000 + nanoSeconds / 1000000;
+  return milliSeconds;
 }
 
 void sleepForMs(long long delayInMs) {
@@ -102,14 +87,6 @@ unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr) {
   return value;
 }
 
-void writeToFile(FILE *file, char *value) {
-  int charWritten = 0;
-  charWritten = fprintf(file, value);
-  if (charWritten <= 0) {
-    printf("Error, writing data\n");
-    exit(-1);
-  }
-}
 
 //echo to file for editing their values
 void EchoToFile(char* filePath, char* contents){
@@ -136,18 +113,18 @@ bool Get_Terminate(){
 
 }
 
-void change_halt(bool status){
+void Change_halt(bool status){
   halt = status;
 }
 
-bool get_halt(){
+bool Get_halt(){
   return halt;
 }
 
-void change_motor_flag(bool status){
+void Change_motor_flag(bool status){
   motor_flag = status;
 }
 
-bool get_motor_flag(){
+bool Get_motor_flag(){
   return motor_flag;
 }

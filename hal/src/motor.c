@@ -19,7 +19,7 @@ void MOTOR_init(void) {
 void *motor_thread(void *arg){
   (void) arg;
   while(!Get_Terminate()){
-    if(get_motor_flag()){
+    if(Get_motor_flag()){
       MOTOR_vibrate(1);
     }
   }
