@@ -15,6 +15,15 @@ static float* gyroDataSmoothed;
 
 static pthread_mutex_t organizeMutex = PTHREAD_MUTEX_INITIALIZER;
 
+/*
+	File used to organize data from the distant sensor and gyroscope.
+	The data is smoothed using the moving average algorithm.
+	The thread will save number of data (determined by DATA_LEN).
+	Afterward, we will calculate an average. 
+	The data from this file will be used as the sample values for main.
+*/
+
+
 static void lock(){
     pthread_mutex_lock(&organizeMutex);
 }
@@ -27,6 +36,7 @@ static pthread_t organizeThreadID;
 
 void *organizer_Thread();
 
+//Use moving average to smooth the array
 void moving_average_smooth(float data[]) {
 	lock();
 	int sum = 0;
@@ -39,6 +49,8 @@ void moving_average_smooth(float data[]) {
 	unlock();
 }
 
+//Collect a sample of data from gyroscope of Yaw, Roll, and Pitch
+//Along with a sample of data from the distance sensor and saves it
 void Collect_Sample(){	
 	lock();
 	gyroDataHold = gyro_getData();
@@ -50,6 +62,7 @@ void Collect_Sample(){
 	unlock();
 }
 
+//The initializing function for running the data organizer
 void Organize_init(){
 	yawData = malloc(10*sizeof(float));
 	rollData = malloc(10*sizeof(float));
@@ -66,6 +79,7 @@ void Organize_init(){
 	pthread_create(&organizeThreadID, NULL, organizer_Thread,NULL);
 }
 
+//call the smoothing algorithm on the data and store them
 void Smooth_Data(){	
 	moving_average_smooth(yawData);
 	for (int i = 0; i < DATA_LEN; i++){
@@ -89,6 +103,7 @@ void Smooth_Data(){
 	}
 }
 
+//Get the smoothed gyroscope data for use
 float* get_smoothed_gyroData(){
 	gyroDataSmoothed[0] = yawData[arr_Index];
 	gyroDataSmoothed[1] = rollData[arr_Index];
@@ -96,10 +111,14 @@ float* get_smoothed_gyroData(){
 	return gyroDataSmoothed;	
 }
 
+//Get the smoothed distance data for use
 float get_smoothed_distanceData(){	
 	return distanceStorage[arr_Index];	
 }
 
+//The thread will collect samples of data of each type,
+//Up to the number which is defined as DATA_LEN
+//Then the smoothing algorithm will be run
 void *organizer_Thread(){
 	while(Get_Terminate() != true){		
 		if(!Get_halt()){
@@ -116,6 +135,8 @@ void *organizer_Thread(){
 	return NULL;
 }
 
+//Clean up for organize thread
+//Must be called at the end
 void organize_cleanup(){
 	Change_Terminate(true);
 	printf("Organize_cleanup Initiated\n");

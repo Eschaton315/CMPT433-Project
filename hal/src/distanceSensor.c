@@ -23,6 +23,8 @@ void DS_init(void) {
   pthread_create(&sensorThreadID, NULL, sensor_Thread, NULL);
 }
 
+// DS_cleanup() must be called in the cleanup phase of the driver program
+// cleanup() sets the distance sensor driver flag to false and attmepts to join the sensor thread
 void DS_cleanup(void) {
   printf("DS_cleanup called\n");
   DS_DRIVER_FLAG = false;

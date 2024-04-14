@@ -34,9 +34,7 @@ void BuzzerMissThreadJoin(void){
 }
 
 
-
-
-
+//Buzzer hit pattern (from AS 4)
 static void* BuzzerHit(){
 	ChangePeriod(hitPeriod);
 	ChangeDutyCycle(hitDutyCycle);
@@ -46,6 +44,7 @@ static void* BuzzerHit(){
 	return NULL;
 }
 
+//Buzzer miss pattern (from AS 4)
 static void* BuzzerMiss(){
 	ChangePeriod(MissPeriod);
 	ChangeDutyCycle(MissDutyCycle);

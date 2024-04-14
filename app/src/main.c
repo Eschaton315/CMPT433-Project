@@ -37,13 +37,14 @@ int main() {
   printf("RIGHT: Recalibrate Gyro\n");
   printf("LEFT Stop Program\n");
 
-  //initialize hardware
-
+  //initialize hardware & more
   if(DISTANCE_SENSOR){
     DS_init();
+	
   }
   if(GYROSCOPE){
     gyro_init();
+	
   }
   MOTOR_init();
   Organize_init();
@@ -57,10 +58,13 @@ int main() {
     roll = gyroData[1];
     pitch = gyroData[2];
     distance = get_smoothed_distanceData();
+	
     if (distance < 50.000){
-      Change_motor_flag(true);	  
+      Change_motor_flag(true);
+	  
 	  }	else{
       Change_motor_flag(false);
+	  
     }
 
     //prints gyro value
@@ -85,8 +89,8 @@ int main() {
           //A fall has been detected and will start a buzzer to initiate alarm
           BuzzerMissThreadCreate();
           buzzerTimer = getTimeInMs();
-          //Print FALLEN until down joystick is pressed to cancel the alarm
           
+		  //Print FALLEN until down joystick is pressed to cancel the alarm
           while(joystick_getJoystickValue()!=2){
 
             currentTime = getTimeInMs();
@@ -99,11 +103,13 @@ int main() {
 
             }
           }
+		  
           //Alarm turned off
           fall = false;
         }
       }
     }else{
+		
       //Threshold not maintained so alarm will not start
       fall = false;
     }
@@ -124,16 +130,18 @@ int main() {
     sleepForMs(100);
   }
 
-  //Start clean up
+  //Clean up before shut down 
   BuzzerMissThreadJoin();
   organize_cleanup();
   
   if(DISTANCE_SENSOR){
     DS_cleanup();
+	
   }
 
   if(GYROSCOPE){
     gyro_cleanup();
+	
   }
   printf("Main program Finished, exiting. . .\n");
   return 0;
